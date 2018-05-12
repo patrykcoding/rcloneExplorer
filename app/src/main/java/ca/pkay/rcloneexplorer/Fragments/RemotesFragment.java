@@ -69,13 +69,11 @@ public class RemotesFragment extends Fragment {
         }
         view = inflater.inflate(R.layout.fragment_remotes_list, container, false);
 
-        // set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-            recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            recyclerView.setAdapter(new RemotesRecyclerViewAdapter(remotes, clickListener));
-        }
+        Context context = view.getContext();
+        RecyclerView recyclerView =  view.findViewById(R.id.remotes_list);
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        recyclerView.setAdapter(new RemotesRecyclerViewAdapter(remotes, clickListener));
+
         return view;
     }
 
