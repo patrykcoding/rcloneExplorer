@@ -16,12 +16,9 @@ import android.util.TypedValue;
 
 import ca.pkay.rcloneexplorer.CustomColorHelper;
 import ca.pkay.rcloneexplorer.R;
-import ca.pkay.rcloneexplorer.Rclone;
 
 public class RemoteConfig extends AppCompatActivity implements RemotesConfigList.ProviderSelectedListener {
 
-    private boolean isDarkTheme;
-    private Rclone rclone;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,12 +33,9 @@ public class RemoteConfig extends AppCompatActivity implements RemotesConfigList
             actionBar.setDisplayShowHomeEnabled(true);
         }
 
-        rclone = new Rclone(this);
-
         Fragment fragment = RemotesConfigList.newInstance();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.flFragment, fragment, "config list");
-        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
 
@@ -49,7 +43,7 @@ public class RemoteConfig extends AppCompatActivity implements RemotesConfigList
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         int customPrimaryColor = sharedPreferences.getInt(getString(R.string.pref_key_color_primary), -1);
         int customAccentColor = sharedPreferences.getInt(getString(R.string.pref_key_color_accent), -1);
-        isDarkTheme = sharedPreferences.getBoolean(getString(R.string.pref_key_dark_theme), false);
+        boolean isDarkTheme = sharedPreferences.getBoolean(getString(R.string.pref_key_dark_theme), false);
         getTheme().applyStyle(CustomColorHelper.getPrimaryColorTheme(this, customPrimaryColor), true);
         getTheme().applyStyle(CustomColorHelper.getAccentColorTheme(this, customAccentColor), true);
         if (isDarkTheme) {
@@ -69,6 +63,12 @@ public class RemoteConfig extends AppCompatActivity implements RemotesConfigList
     }
 
     @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    @Override
     public void onProviderSelected(int provider) {
         if (provider < 0) {
             finish();
@@ -81,12 +81,16 @@ public class RemoteConfig extends AppCompatActivity implements RemotesConfigList
             case "BOX":
                 fragment = BoxConfig.newInstance();
                 break;
+            case "DROPBOX":
+                fragment = DropboxConfig.newInstance();
+                break;
             default:
                 return;
         }
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.flFragment, fragment, "new config");
+        transaction.addToBackStack(null);
         transaction.commit();
     }
 }

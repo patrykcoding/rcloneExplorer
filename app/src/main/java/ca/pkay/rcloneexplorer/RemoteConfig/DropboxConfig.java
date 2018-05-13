@@ -11,7 +11,6 @@ import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -23,7 +22,7 @@ import ca.pkay.rcloneexplorer.R;
 import ca.pkay.rcloneexplorer.Rclone;
 import es.dmoral.toasty.Toasty;
 
-public class BoxConfig extends Fragment {
+public class DropboxConfig extends Fragment {
 
     private Context context;
     private Rclone rclone;
@@ -35,9 +34,9 @@ public class BoxConfig extends Fragment {
     private EditText clientId;
     private EditText clientSecret;
 
-    public BoxConfig() {}
+    public DropboxConfig() {}
 
-    public static BoxConfig newInstance() { return new BoxConfig(); }
+    public static DropboxConfig newInstance() { return new DropboxConfig(); }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,12 +79,12 @@ public class BoxConfig extends Fragment {
         TextInputLayout clientIdInputLayout = view.findViewById(R.id.client_id_input_layout);
         clientIdInputLayout.setVisibility(View.VISIBLE);
         clientId = view.findViewById(R.id.client_id);
-        clientId.setHint(R.string.box_client_id_hint);
+        clientId.setHint(R.string.dropbox_client_id_hint);
 
         TextInputLayout clientSecretInputLayout = view.findViewById(R.id.client_secret_input_layout);
-        clientSecretInputLayout.setVisibility(View.VISIBLE);
+        clientIdInputLayout.setVisibility(View.VISIBLE);
         clientSecret = view.findViewById(R.id.client_secret);
-        clientSecret.setHint(R.string.box_client_secret_hint);
+        clientSecret.setHint(R.string.dropbox_client_secret_hint);
 
         view.findViewById(R.id.next).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,7 +138,7 @@ public class BoxConfig extends Fragment {
 
         ArrayList<String> options = new ArrayList<>();
         options.add(name);
-        options.add("box");
+        options.add("dropbox");
         if (!clientIdString.trim().isEmpty()) {
             options.add("client_id");
             options.add(clientIdString);

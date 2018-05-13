@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,19 +21,14 @@ public class RemotesConfigList extends Fragment {
         void onProviderSelected(int provider);
     }
 
-    public static final ArrayList<String> providers = new ArrayList<>(Arrays.asList("DRIVE", "BOX"));
+    public static final ArrayList<String> providers = new ArrayList<>(Arrays.asList("DRIVE", "BOX", "DROPBOX"));
     private int[] selected = {-1};
+    private RadioButton lastSelected;
     private ProviderSelectedListener listener;
 
     public RemotesConfigList() {}
 
     public static RemotesConfigList newInstance() { return new RemotesConfigList(); }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
 
     @Nullable
     @Override
@@ -60,6 +54,15 @@ public class RemotesConfigList extends Fragment {
         listener = null;
     }
 
+    private void setSelected(RadioButton radioButton, String provider) {
+        radioButton.setChecked(true);
+        if (lastSelected != null) {
+            lastSelected.setChecked(false);
+        }
+        lastSelected = radioButton;
+        selected[0] = providers.indexOf(provider);
+    }
+
     private void setClickListeners(View view) {
         view.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,8 +80,28 @@ public class RemotesConfigList extends Fragment {
             @Override
             public void onClick(View v) {
                 RadioButton rb = v.findViewById(R.id.rb_box);
-                rb.setChecked(true);
-                selected[0] = providers.indexOf("BOX");
+                setSelected(rb, "BOX");
+            }
+        });
+        view.findViewById(R.id.rb_box).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RadioButton rb = v.findViewById(R.id.rb_box);
+                setSelected(rb, "BOX");
+            }
+        });
+        view.findViewById(R.id.provider_dropbox).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RadioButton rb = v.findViewById(R.id.rb_dropbox);
+                setSelected(rb, "DROPBOX");
+            }
+        });
+        view.findViewById(R.id.rb_dropbox).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RadioButton rb = v.findViewById(R.id.rb_dropbox);
+                setSelected(rb, "DROPBOX");
             }
         });
     }
