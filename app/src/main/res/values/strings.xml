@@ -178,4 +178,9 @@
     <string name="no_search_results">No search results</string>
     <string name="nothing_selected">Nothing selected</string>
     <string name="file_picker_root_title">Device storage</string>
+    <string name="remote_name_hint">Remote name</string>
+    <string name="box_client_id_hint">Box App Client ID - leave blank normally</string>
+    <string name="box_client_secret_hint">Box App Client Secret - leave blank normally</string>
+    <string name="next_capital">NEXT</string>
+    <string name="remote_name_cannot_be_empty">Remote name can\'t be empty</string>
 </resources>
