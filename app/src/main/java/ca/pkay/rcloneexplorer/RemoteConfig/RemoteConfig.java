@@ -81,6 +81,9 @@ public class RemoteConfig extends AppCompatActivity implements RemotesConfigList
             case "AMAZON CLOUD DRIVE":
                 fragment = AmazonCloudStorageConfig.newInstance();
                 break;
+            case "B2":
+                fragment = B2Config.newInstance();
+                break;
             case "BOX":
                 fragment = BoxConfig.newInstance();
                 break;
