@@ -14,15 +14,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import ca.pkay.rcloneexplorer.R;
 import ca.pkay.rcloneexplorer.Rclone;
-import es.dmoral.toasty.Toasty;
 
-public class DropboxConfig extends Fragment {
+public class AmazonCloudStorageConfig extends Fragment {
 
     private Context context;
     private Rclone rclone;
@@ -30,13 +28,17 @@ public class DropboxConfig extends Fragment {
     private View formView;
     private AsyncTask authTask;
     private TextInputLayout remoteNameInputLayout;
+    private TextInputLayout clientIdInputLayout;
+    private TextInputLayout clientSecretInputLayout;
     private EditText remoteName;
     private EditText clientId;
     private EditText clientSecret;
+    private EditText authUrl;
+    private EditText tokenUrl;
 
-    public DropboxConfig() {}
+    public AmazonCloudStorageConfig() {}
 
-    public static DropboxConfig newInstance() { return new DropboxConfig(); }
+    public static AmazonCloudStorageConfig newInstance() { return new AmazonCloudStorageConfig(); }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,15 +78,26 @@ public class DropboxConfig extends Fragment {
         remoteNameInputLayout.setVisibility(View.VISIBLE);
         remoteName = view.findViewById(R.id.remote_name);
 
-        TextInputLayout clientIdInputLayout = view.findViewById(R.id.client_id_input_layout);
+        clientIdInputLayout = view.findViewById(R.id.client_id_input_layout);
         clientIdInputLayout.setVisibility(View.VISIBLE);
-        clientIdInputLayout.setHint(getString(R.string.dropbox_client_id_hint));
+        clientIdInputLayout.setHint(getString(R.string.amazon_cloud_storage_client_id_hint));
         clientId = view.findViewById(R.id.client_id);
 
-        TextInputLayout clientSecretInputLayout = view.findViewById(R.id.client_secret_input_layout);
+        clientSecretInputLayout = view.findViewById(R.id.client_secret_input_layout);
         clientSecretInputLayout.setVisibility(View.VISIBLE);
-        clientSecretInputLayout.setHint(getString(R.string.dropbox_client_secret_hint));
+        clientSecretInputLayout.setHint(getString(R.string.amazon_cloud_storage_client_secret_hint));
         clientSecret = view.findViewById(R.id.client_secret);
+
+        TextInputLayout authUrlInputLayout = view.findViewById(R.id.auth_url_input_layout);
+        authUrlInputLayout.setVisibility(View.VISIBLE);
+        authUrlInputLayout.setHint(getString(R.string.auth_server_url_hint));
+        authUrl = view.findViewById(R.id.auth_url);
+
+        TextInputLayout tokenUrlInputLayout = view.findViewById(R.id.token_url_input_layout);
+        tokenUrlInputLayout.setVisibility(View.VISIBLE);
+        tokenUrlInputLayout.setHint(getString(R.string.token_server_url_hint));
+        tokenUrl = view.findViewById(R.id.token_url);
+
 
         view.findViewById(R.id.next).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,30 +139,56 @@ public class DropboxConfig extends Fragment {
     }
 
     private void setUpRemote() {
+        boolean error = false;
         String name = remoteName.getText().toString();
         String clientIdString = clientId.getText().toString();
         String clientSecretString = clientSecret.getText().toString();
+        String authUrlString = authUrl.getText().toString();
+        String tokenUrlString = tokenUrl.getText().toString();
 
         if (name.trim().isEmpty()) {
             remoteNameInputLayout.setErrorEnabled(true);
             remoteNameInputLayout.setError(getString(R.string.remote_name_cannot_be_empty));
+            error = true;
+        } else {
+            remoteNameInputLayout.setErrorEnabled(false);
+        }
+        if (clientIdString.trim().isEmpty()) {
+            clientIdInputLayout.setErrorEnabled(true);
+            clientIdInputLayout.setError(getString(R.string.required_field));
+            error = true;
+        } else {
+            remoteNameInputLayout.setErrorEnabled(false);
+        }
+        if (clientSecretString.trim().isEmpty()) {
+            clientSecretInputLayout.setErrorEnabled(true);
+            clientSecretInputLayout.setError(getString(R.string.required_field));
+            error = true;
+        } else {
+            clientSecretInputLayout.setErrorEnabled(false);
+        }
+        if (error) {
             return;
         }
 
         ArrayList<String> options = new ArrayList<>();
         options.add(name);
-        options.add("dropbox");
-        if (!clientIdString.trim().isEmpty()) {
-            options.add("client_id");
-            options.add(clientIdString);
-        }
-        if (!clientSecretString.trim().isEmpty()) {
-            options.add("client_secret");
-            options.add(clientSecretString);
-        }
-
+        options.add("amazon cloud drive");
+        options.add("client_id");
+        options.add(clientIdString);
+        options.add("client_secret");
+        options.add(clientSecretString);
         options.add("env_auth");
         options.add("true");
+
+        if (!authUrlString.trim().isEmpty()) {
+            options.add("auth_url");
+            options.add(authUrlString);
+        }
+        if (!tokenUrlString.trim().isEmpty()) {
+            options.add("token_url");
+            options.add(tokenUrlString);
+        }
 
         authTask = new ConfigCreate(options).execute();
     }

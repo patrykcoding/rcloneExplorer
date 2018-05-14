@@ -179,6 +179,8 @@
     <string name="nothing_selected">Nothing selected</string>
     <string name="file_picker_root_title">Device storage</string>
     <string name="remote_name_hint">Remote name</string>
+    <string name="amazon_cloud_storage_client_id_hint">Amazon Client ID</string>
+    <string name="amazon_cloud_storage_client_secret_hint">Amazon Client Secret</string>
     <string name="box_client_id_hint">Box App Client ID</string>
     <string name="box_client_secret_hint">Box App Client Secret</string>
     <string name="dropbox_client_id_hint">DropBox App Client ID</string>
@@ -191,4 +193,8 @@
     <string name="next_caps">NEXT</string>
     <string name="provider_box">Box</string>
     <string name="provider_dropbox">DropBox</string>
+    <string name="provider_amazon_cloud_drive">Amazon Cloud Drive</string>
+    <string name="required_field">Required field</string>
+    <string name="auth_server_url_hint">Auth server URL</string>
+    <string name="token_server_url_hint">Token server URL</string>
 </resources>

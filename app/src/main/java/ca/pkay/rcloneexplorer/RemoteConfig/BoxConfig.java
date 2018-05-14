@@ -79,13 +79,13 @@ public class BoxConfig extends Fragment {
 
         TextInputLayout clientIdInputLayout = view.findViewById(R.id.client_id_input_layout);
         clientIdInputLayout.setVisibility(View.VISIBLE);
+        clientIdInputLayout.setHint(getString(R.string.box_client_id_hint));
         clientId = view.findViewById(R.id.client_id);
-        clientId.setHint(R.string.box_client_id_hint);
 
         TextInputLayout clientSecretInputLayout = view.findViewById(R.id.client_secret_input_layout);
         clientSecretInputLayout.setVisibility(View.VISIBLE);
+        clientSecretInputLayout.setHint(getString(R.string.box_client_secret_hint));
         clientSecret = view.findViewById(R.id.client_secret);
-        clientSecret.setHint(R.string.box_client_secret_hint);
 
         view.findViewById(R.id.next).setOnClickListener(new View.OnClickListener() {
             @Override
