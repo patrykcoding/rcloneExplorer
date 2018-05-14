@@ -87,6 +87,9 @@ public class RemoteConfig extends AppCompatActivity implements RemotesConfigList
             case "BOX":
                 fragment = BoxConfig.newInstance();
                 break;
+            case "FTP":
+                fragment = ftpConfig.newInstance();
+                break;
             case "DROPBOX":
                 fragment = DropboxConfig.newInstance();
                 break;

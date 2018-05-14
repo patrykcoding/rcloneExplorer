@@ -183,6 +183,25 @@ public class Rclone {
         }
     }
 
+    public String obscure(String pass) {
+        String[] command = createCommand("obscure", pass);
+
+        Process process;
+        try {
+            process = Runtime.getRuntime().exec(command);
+            process.waitFor();
+            if (process.exitValue() != 0) {
+                return null;
+            }
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            return  reader.readLine();
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public Process serveHttp(String remote, String servePath) {
         String path = (servePath.compareTo("//" + remote) == 0) ? remote + ":" : remote + ":" + servePath;
         String[] command = createCommand("serve", "http", path);

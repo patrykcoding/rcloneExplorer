@@ -99,14 +99,14 @@ public class B2Config extends Fragment {
         } else {
             remoteNameInputLayout.setErrorEnabled(false);
         }
-        if (!accountString.trim().isEmpty()) {
+        if (accountString.trim().isEmpty()) {
             accountInputLayout.setErrorEnabled(true);
             accountInputLayout.setError(getString(R.string.required_field));
             error = true;
         } else {
             accountInputLayout.setErrorEnabled(false);
         }
-        if (!keyString.trim().isEmpty()) {
+        if (keyString.trim().isEmpty()) {
             keyInputLayout.setErrorEnabled(true);
             keyInputLayout.setError(getString(R.string.required_field));
             error = true;
