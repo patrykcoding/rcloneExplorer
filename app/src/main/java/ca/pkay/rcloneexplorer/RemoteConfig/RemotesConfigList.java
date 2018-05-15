@@ -21,7 +21,7 @@ public class RemotesConfigList extends Fragment {
         void onProviderSelected(int provider);
     }
 
-    public static final ArrayList<String> providers = new ArrayList<>(Arrays.asList("AMAZON CLOUD DRIVE", "B2", "BOX", "FTP", "HTTP", "HUBIC", "DROPBOX"));
+    public static final ArrayList<String> providers = new ArrayList<>(Arrays.asList("AMAZON CLOUD DRIVE", "B2", "BOX", "FTP", "HTTP", "HUBIC", "PCLOUD", "DROPBOX"));
     private int[] selected = {-1};
     private RadioButton lastSelected;
     private ProviderSelectedListener listener;
@@ -178,6 +178,21 @@ public class RemotesConfigList extends Fragment {
             public void onClick(View v) {
                 RadioButton rb = v.findViewById(R.id.rb_hubic);
                 setSelected(rb, "HUBIC");
+            }
+        });
+
+        view.findViewById(R.id.provider_pcloud).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RadioButton rb = v.findViewById(R.id.rb_pcloud);
+                setSelected(rb, "PCLOUD");
+            }
+        });
+        view.findViewById(R.id.rb_pcloud).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RadioButton rb = v.findViewById(R.id.rb_pcloud);
+                setSelected(rb, "PCLOUD");
             }
         });
     }

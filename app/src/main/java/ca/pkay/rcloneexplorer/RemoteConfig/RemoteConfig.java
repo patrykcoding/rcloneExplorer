@@ -99,6 +99,9 @@ public class RemoteConfig extends AppCompatActivity implements RemotesConfigList
             case "HUBIC":
                 fragment = HubicConfig.newInstance();
                 break;
+            case "PCLOUD":
+                fragment = PcloudConfig.newInstance();
+                break;
             default:
                 return;
         }
