@@ -26,7 +26,10 @@ import ca.pkay.rcloneexplorer.RemoteConfig.RemoteConfig;
 
 public class RemotesFragment extends Fragment {
 
+    private final int CONFIG_REQ_CODE = 171;
+    private final int CONFIG_RECREATE_REQ_CODE = 156;
     private Rclone rclone;
+    private RemotesRecyclerViewAdapter recyclerViewAdapter;
     private List<RemoteItem> remotes;
     private OnRemoteClickListener clickListener;
     private Context context;
@@ -69,6 +72,15 @@ public class RemotesFragment extends Fragment {
                     }
                 }
             });
+
+            SpeedDialView speedDialView = view.findViewById(R.id.fab);
+            speedDialView.setMainFabOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, RemoteConfig.class);
+                    startActivityForResult(intent, CONFIG_RECREATE_REQ_CODE);
+                }
+            });
             return view;
         }
         view = inflater.inflate(R.layout.fragment_remotes_list, container, false);
@@ -76,18 +88,36 @@ public class RemotesFragment extends Fragment {
         final Context context = view.getContext();
         RecyclerView recyclerView =  view.findViewById(R.id.remotes_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        recyclerView.setAdapter(new RemotesRecyclerViewAdapter(remotes, clickListener));
+        recyclerViewAdapter = new RemotesRecyclerViewAdapter(remotes, clickListener);
+        recyclerView.setAdapter(recyclerViewAdapter);
 
         SpeedDialView speedDialView = view.findViewById(R.id.fab);
         speedDialView.setMainFabOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, RemoteConfig.class);
-                startActivity(intent);
+                startActivityForResult(intent, CONFIG_REQ_CODE);
             }
         });
 
         return view;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case CONFIG_REQ_CODE:
+                List<RemoteItem> remoteItemList = rclone.getRemotes();
+                recyclerViewAdapter.newData(remoteItemList);
+                break;
+            case CONFIG_RECREATE_REQ_CODE:
+                Intent intent = new Intent(context, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                break;
+        }
     }
 
     @Override

@@ -21,7 +21,7 @@ public class RemotesConfigList extends Fragment {
         void onProviderSelected(int provider);
     }
 
-    public static final ArrayList<String> providers = new ArrayList<>(Arrays.asList("AMAZON CLOUD DRIVE", "B2", "BOX", "FTP", "HTTP", "HUBIC", "PCLOUD", "SFTP", "YANDEX", "DROPBOX"));
+    public static final ArrayList<String> providers = new ArrayList<>(Arrays.asList("AMAZON CLOUD DRIVE", "WEBDAV", "B2", "BOX", "FTP", "HTTP", "HUBIC", "PCLOUD", "SFTP", "YANDEX", "DROPBOX"));
     private int[] selected = {-1};
     private RadioButton lastSelected;
     private ProviderSelectedListener listener;
@@ -67,7 +67,9 @@ public class RemotesConfigList extends Fragment {
         view.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onProviderSelected(-1);
+                if (getActivity() != null) {
+                    getActivity().finish();
+                }
             }
         });
         view.findViewById(R.id.next).setOnClickListener(new View.OnClickListener() {
@@ -223,6 +225,21 @@ public class RemotesConfigList extends Fragment {
             public void onClick(View v) {
                 RadioButton rb = v.findViewById(R.id.rb_yandex);
                 setSelected(rb, "YANDEX");
+            }
+        });
+
+        view.findViewById(R.id.provider_webdav).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RadioButton rb = v.findViewById(R.id.rb_webdav);
+                setSelected(rb, "WEBDAV");
+            }
+        });
+        view.findViewById(R.id.rb_webdav).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RadioButton rb = v.findViewById(R.id.rb_webdav);
+                setSelected(rb, "WEBDAV");
             }
         });
     }

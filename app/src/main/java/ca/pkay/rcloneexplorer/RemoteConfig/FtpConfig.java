@@ -1,5 +1,6 @@
 package ca.pkay.rcloneexplorer.RemoteConfig;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,14 +10,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import ca.pkay.rcloneexplorer.R;
 import ca.pkay.rcloneexplorer.Rclone;
+import es.dmoral.toasty.Toasty;
 
 public class FtpConfig extends Fragment {
 
+    private Context context;
     private Rclone rclone;
     private TextInputLayout remoteNameInputLayout;
     private TextInputLayout hostInputLayout;
@@ -39,7 +43,8 @@ public class FtpConfig extends Fragment {
         if (getContext() == null) {
             return;
         }
-        rclone = new Rclone(getContext());
+        context = getContext();
+        rclone = new Rclone(context);
     }
 
     @Nullable
@@ -69,6 +74,7 @@ public class FtpConfig extends Fragment {
         portInputLayout.setVisibility(View.VISIBLE);
         portInputLayout.setHint(getString(R.string.ftp_port_hint));
         port = view.findViewById(R.id.port);
+        port.setText(R.string.ftp_default_port);
 
         passInputLayout = view.findViewById(R.id.pass_input_layout);
         passInputLayout.setVisibility(View.VISIBLE);
@@ -161,6 +167,11 @@ public class FtpConfig extends Fragment {
             process.waitFor();
         } catch (InterruptedException e) {
             e.printStackTrace();
+        }
+        if (process.exitValue() != 0) {
+            Toasty.error(context, getString(R.string.error_creating_remote), Toast.LENGTH_SHORT, true).show();
+        } else {
+            Toasty.success(context, getString(R.string.remote_creation_success), Toast.LENGTH_SHORT, true).show();
         }
         if (getActivity() != null) {
             getActivity().finish();

@@ -222,4 +222,15 @@
     <string name="provider_yandex">Yandex</string>
     <string name="yandex_client_id_hint">Yandex Client ID</string>
     <string name="yandex_client_secret_hint">Yandex Client Secret</string>
+    <string name="webdav_user_hint">User name</string>
+    <string name="webdav_pass_hint">Password</string>
+    <string name="provider_webdav">Webdav</string>
+    <string name="error_creating_remote">Error creating remote</string>
+    <string name="ftp_default_port">21</string>
+    <string name="sftp_default_port">22</string>
+    <string name="remote_creation_success">Remote created successfully</string>
+    <string name="next">Next</string>
+    <string name="leave_blank_normally">Leave blank normally</string>
+    <string name="title_activity_remote_config">Configure</string>
+    <string name="provider_onedrive">Microsoft OneDrive</string>
 </resources>

@@ -10,14 +10,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import ca.pkay.rcloneexplorer.R;
 import ca.pkay.rcloneexplorer.Rclone;
+import es.dmoral.toasty.Toasty;
 
 public class B2Config extends Fragment {
 
+    private Context context;
     private Rclone rclone;
     private TextInputLayout remoteNameInputLayout;
     private TextInputLayout accountInputLayout;
@@ -37,7 +40,8 @@ public class B2Config extends Fragment {
         if (getContext() == null) {
             return;
         }
-        rclone = new Rclone(getContext());
+        context = getContext();
+        rclone = new Rclone(context);
     }
 
     @Nullable
@@ -67,6 +71,8 @@ public class B2Config extends Fragment {
         endpointInputLayout.setVisibility(View.VISIBLE);
         endpointInputLayout.setHint(getString(R.string.endpoint_hint));
         endpoint = view.findViewById(R.id.endpoint);
+
+        view.findViewById(R.id.endpoint_optional).setVisibility(View.VISIBLE);
 
         view.findViewById(R.id.next).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,6 +142,11 @@ public class B2Config extends Fragment {
             process.waitFor();
         } catch (InterruptedException e) {
             e.printStackTrace();
+        }
+        if (process.exitValue() != 0) {
+            Toasty.error(context, getString(R.string.error_creating_remote), Toast.LENGTH_SHORT, true).show();
+        } else {
+            Toasty.success(context, getString(R.string.remote_creation_success), Toast.LENGTH_SHORT, true).show();
         }
         if (getActivity() != null) {
             getActivity().finish();

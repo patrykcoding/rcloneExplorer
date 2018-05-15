@@ -13,12 +13,15 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
+import android.widget.Toast;
 
 import ca.pkay.rcloneexplorer.CustomColorHelper;
 import ca.pkay.rcloneexplorer.R;
+import es.dmoral.toasty.Toasty;
 
 public class RemoteConfig extends AppCompatActivity implements RemotesConfigList.ProviderSelectedListener {
 
+    private Fragment fragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,7 +36,7 @@ public class RemoteConfig extends AppCompatActivity implements RemotesConfigList
             actionBar.setDisplayShowHomeEnabled(true);
         }
 
-        Fragment fragment = RemotesConfigList.newInstance();
+        fragment = RemotesConfigList.newInstance();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.flFragment, fragment, "config list");
         fragmentTransaction.commit();
@@ -64,49 +67,90 @@ public class RemoteConfig extends AppCompatActivity implements RemotesConfigList
 
     @Override
     public boolean onSupportNavigateUp() {
-        onBackPressed();
+        if (fragment instanceof RemotesConfigList) {
+            finish();
+        } else {
+            fragment = RemotesConfigList.newInstance();
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.flFragment, fragment, "config list");
+            fragmentTransaction.commit();
+
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setTitle(R.string.title_activity_remote_config);
+            }
+        }
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (fragment instanceof RemotesConfigList) {
+            finish();
+        } else {
+            fragment = RemotesConfigList.newInstance();
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.flFragment, fragment, "config list");
+            fragmentTransaction.commit();
+
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setTitle(R.string.title_activity_remote_config);
+            }
+        }
     }
 
     @Override
     public void onProviderSelected(int provider) {
         if (provider < 0) {
-            finish();
+            Toasty.error(this, getString(R.string.nothing_selected), Toast.LENGTH_SHORT, true).show();
             return;
         }
 
-        Fragment fragment;
         String s = RemotesConfigList.providers.get(provider);
+        String title;
         switch (s) {
             case "AMAZON CLOUD DRIVE":
                 fragment = AmazonCloudStorageConfig.newInstance();
+                title = "Amazon Cloud Drive";
                 break;
             case "B2":
                 fragment = B2Config.newInstance();
+                title = "Backblaze B2";
                 break;
             case "BOX":
                 fragment = BoxConfig.newInstance();
+                title = "Box";
                 break;
             case "FTP":
                 fragment = FtpConfig.newInstance();
+                title = "FTP";
                 break;
             case "HTTP":
                 fragment = HttpConfig.newInstance();
+                title = "HTTP";
                 break;
             case "DROPBOX":
                 fragment = DropboxConfig.newInstance();
+                title = "Dropbox";
                 break;
             case "HUBIC":
                 fragment = HubicConfig.newInstance();
+                title = "Hubic";
                 break;
             case "PCLOUD":
                 fragment = PcloudConfig.newInstance();
+                title = "Pcloud";
                 break;
             case "SFTP":
                 fragment = SftpConfig.newInstance();
+                title = "SFTP/SSH";
                 break;
             case "YANDEX":
                 fragment = YandexConfig.newInstance();
+                title = "Yandex";
+                break;
+            case "WEBDAV":
+                fragment = WebdavConfig.newInstance();
+                title = "Webdav";
                 break;
             default:
                 return;
@@ -114,7 +158,10 @@ public class RemoteConfig extends AppCompatActivity implements RemotesConfigList
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.flFragment, fragment, "new config");
-        transaction.addToBackStack(null);
         transaction.commit();
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(title);
+        }
     }
 }

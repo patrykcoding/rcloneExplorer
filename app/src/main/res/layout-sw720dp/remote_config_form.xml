@@ -8,12 +8,21 @@
     android:orientation="vertical">
 
     <include
+        android:id="@+id/auth_screen"
+        android:layout_width="600dp"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:background="?attr/backgroundColor"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         layout="@layout/auth_screen" />
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/form"
-        android:layout_width="match_parent"
+        android:layout_width="600dp"
         android:layout_height="match_parent"
+        android:background="?attr/cardColor"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

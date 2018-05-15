@@ -2,6 +2,7 @@ package ca.pkay.rcloneexplorer.RemoteConfig;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -14,11 +15,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import ca.pkay.rcloneexplorer.MainActivity;
 import ca.pkay.rcloneexplorer.R;
 import ca.pkay.rcloneexplorer.Rclone;
+import es.dmoral.toasty.Toasty;
 
 public class AmazonCloudStorageConfig extends Fragment {
 
@@ -98,6 +102,8 @@ public class AmazonCloudStorageConfig extends Fragment {
         tokenUrlInputLayout.setHint(getString(R.string.token_server_url_hint));
         tokenUrl = view.findViewById(R.id.token_url);
 
+        view.findViewById(R.id.auth_url_optional).setVisibility(View.VISIBLE);
+        view.findViewById(R.id.token_url_optional).setVisibility(View.VISIBLE);
 
         view.findViewById(R.id.next).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -225,7 +231,7 @@ public class AmazonCloudStorageConfig extends Fragment {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            return true;
+            return process.exitValue() == 0;
         }
 
         @Override
@@ -237,11 +243,17 @@ public class AmazonCloudStorageConfig extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(Boolean aBoolean) {
-            super.onPostExecute(aBoolean);
-            if (getActivity() !=  null) {
-                getActivity().finish();
+        protected void onPostExecute(Boolean success) {
+            super.onPostExecute(success);
+            if (!success) {
+                Toasty.error(context, getString(R.string.error_creating_remote), Toast.LENGTH_SHORT, true).show();
+            } else {
+                Toasty.success(context, getString(R.string.remote_creation_success), Toast.LENGTH_SHORT, true).show();
             }
+            Intent intent = new Intent(context, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
         }
     }
 }

@@ -2,6 +2,7 @@ package ca.pkay.rcloneexplorer.RemoteConfig;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import ca.pkay.rcloneexplorer.MainActivity;
 import ca.pkay.rcloneexplorer.R;
 import ca.pkay.rcloneexplorer.Rclone;
 import es.dmoral.toasty.Toasty;
@@ -86,6 +88,9 @@ public class BoxConfig extends Fragment {
         clientSecretInputLayout.setVisibility(View.VISIBLE);
         clientSecretInputLayout.setHint(getString(R.string.box_client_secret_hint));
         clientSecret = view.findViewById(R.id.client_secret);
+
+        view.findViewById(R.id.client_id_optional).setVisibility(View.VISIBLE);
+        view.findViewById(R.id.client_secret_optional).setVisibility(View.VISIBLE);
 
         view.findViewById(R.id.next).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -187,7 +192,7 @@ public class BoxConfig extends Fragment {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            return true;
+            return process.exitValue() == 0;
         }
 
         @Override
@@ -199,11 +204,17 @@ public class BoxConfig extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(Boolean aBoolean) {
-            super.onPostExecute(aBoolean);
-            if (getActivity() !=  null) {
-                getActivity().finish();
+        protected void onPostExecute(Boolean success) {
+            super.onPostExecute(success);
+            if (!success) {
+                Toasty.error(context, getString(R.string.error_creating_remote), Toast.LENGTH_SHORT, true).show();
+            } else {
+                Toasty.success(context, getString(R.string.remote_creation_success), Toast.LENGTH_SHORT, true).show();
             }
+            Intent intent = new Intent(context, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
         }
     }
 }
