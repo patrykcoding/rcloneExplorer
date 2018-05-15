@@ -214,4 +214,12 @@
     <string name="pcloud_client_id_hint">Pcloud Client ID</string>
     <string name="pcloud_client_secret_hint">Pcloud Client Secret</string>
     <string name="provider_pcloud">Pcloud</string>
+    <string name="sftp_host_hint">SSH Host to connect to</string>
+    <string name="ssh_user_hint">SSH username</string>
+    <string name="ssh_port_hint">SSH port</string>
+    <string name="ssh_pass_hint">SSH password</string>
+    <string name="provider_sftp">SFTP/SSH</string>
+    <string name="provider_yandex">Yandex</string>
+    <string name="yandex_client_id_hint">Yandex Client ID</string>
+    <string name="yandex_client_secret_hint">Yandex Client Secret</string>
 </resources>

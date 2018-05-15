@@ -102,6 +102,12 @@ public class RemoteConfig extends AppCompatActivity implements RemotesConfigList
             case "PCLOUD":
                 fragment = PcloudConfig.newInstance();
                 break;
+            case "SFTP":
+                fragment = SftpConfig.newInstance();
+                break;
+            case "YANDEX":
+                fragment = YandexConfig.newInstance();
+                break;
             default:
                 return;
         }

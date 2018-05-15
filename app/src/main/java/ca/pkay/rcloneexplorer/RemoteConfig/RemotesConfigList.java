@@ -21,7 +21,7 @@ public class RemotesConfigList extends Fragment {
         void onProviderSelected(int provider);
     }
 
-    public static final ArrayList<String> providers = new ArrayList<>(Arrays.asList("AMAZON CLOUD DRIVE", "B2", "BOX", "FTP", "HTTP", "HUBIC", "PCLOUD", "DROPBOX"));
+    public static final ArrayList<String> providers = new ArrayList<>(Arrays.asList("AMAZON CLOUD DRIVE", "B2", "BOX", "FTP", "HTTP", "HUBIC", "PCLOUD", "SFTP", "YANDEX", "DROPBOX"));
     private int[] selected = {-1};
     private RadioButton lastSelected;
     private ProviderSelectedListener listener;
@@ -193,6 +193,36 @@ public class RemotesConfigList extends Fragment {
             public void onClick(View v) {
                 RadioButton rb = v.findViewById(R.id.rb_pcloud);
                 setSelected(rb, "PCLOUD");
+            }
+        });
+
+        view.findViewById(R.id.provider_sftp).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RadioButton rb = v.findViewById(R.id.rb_sftp);
+                setSelected(rb, "SFTP");
+            }
+        });
+        view.findViewById(R.id.rb_sftp).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RadioButton rb = v.findViewById(R.id.rb_sftp);
+                setSelected(rb, "SFTP");
+            }
+        });
+
+        view.findViewById(R.id.provider_yandex).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RadioButton rb = v.findViewById(R.id.rb_yandex);
+                setSelected(rb, "YANDEX");
+            }
+        });
+        view.findViewById(R.id.rb_yandex).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RadioButton rb = v.findViewById(R.id.rb_yandex);
+                setSelected(rb, "YANDEX");
             }
         });
     }

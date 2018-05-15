@@ -242,6 +242,11 @@
                     android:textColor="?attr/textColorPrimary" />
                 </android.support.design.widget.TextInputLayout>
 
+                <Spinner
+                    android:id="@+id/webdav_vendor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
             </LinearLayout>
         </ScrollView>
 
