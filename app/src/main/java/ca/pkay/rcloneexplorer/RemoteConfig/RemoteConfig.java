@@ -88,13 +88,16 @@ public class RemoteConfig extends AppCompatActivity implements RemotesConfigList
                 fragment = BoxConfig.newInstance();
                 break;
             case "FTP":
-                fragment = ftpConfig.newInstance();
+                fragment = FtpConfig.newInstance();
                 break;
             case "HTTP":
-                fragment = httpConfig.newInstance();
+                fragment = HttpConfig.newInstance();
                 break;
             case "DROPBOX":
                 fragment = DropboxConfig.newInstance();
+                break;
+            case "HUBIC":
+                fragment = HubicConfig.newInstance();
                 break;
             default:
                 return;

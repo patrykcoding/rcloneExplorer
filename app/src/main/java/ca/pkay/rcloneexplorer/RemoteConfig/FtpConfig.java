@@ -10,14 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
 import ca.pkay.rcloneexplorer.R;
 import ca.pkay.rcloneexplorer.Rclone;
 
-public class ftpConfig extends Fragment {
+public class FtpConfig extends Fragment {
 
     private Rclone rclone;
     private TextInputLayout remoteNameInputLayout;
@@ -31,9 +29,9 @@ public class ftpConfig extends Fragment {
     private EditText port;
     private EditText pass;
 
-    public ftpConfig() {}
+    public FtpConfig() {}
 
-    public static ftpConfig newInstance() { return new ftpConfig(); }
+    public static FtpConfig newInstance() { return new FtpConfig(); }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

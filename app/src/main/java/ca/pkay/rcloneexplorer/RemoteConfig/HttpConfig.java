@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import ca.pkay.rcloneexplorer.R;
 import ca.pkay.rcloneexplorer.Rclone;
 
-public class httpConfig extends Fragment {
+public class HttpConfig extends Fragment {
 
     private Rclone rclone;
     private TextInputLayout remoteNameInputLayout;
@@ -23,9 +23,9 @@ public class httpConfig extends Fragment {
     private EditText remoteName;
     private EditText url;
 
-    public httpConfig() {}
+    public HttpConfig() {}
 
-    public static httpConfig newInstance() { return new httpConfig(); }
+    public static HttpConfig newInstance() { return new HttpConfig(); }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
