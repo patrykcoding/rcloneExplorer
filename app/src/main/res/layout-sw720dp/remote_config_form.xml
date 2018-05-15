@@ -395,6 +395,59 @@
                         android:text="@string/leave_blank_normally"/>
                 </android.support.design.widget.TextInputLayout>
 
+                <LinearLayout
+                    android:id="@+id/onedrive_account_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="8dp"
+                        android:textColor="?attr/textColorPrimary"
+                        android:text="@string/onedrive_account_type"/>
+
+                    <LinearLayout
+                        android:id="@+id/onedrive_personal_account_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:background="?selectableItemBackground" >
+
+                        <RadioButton
+                            android:id="@+id/rb_onedrive_personal_account"
+                            android:paddingBottom="8dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="?attr/textColorPrimary"
+                            android:text="@string/personal_account_type"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/onedrive_business_account_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:background="?selectableItemBackground" >
+                        <RadioButton
+                            android:id="@+id/rb_onedrive_business_account"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="?attr/textColorPrimary"
+                            android:text="@string/business_account_type"/>
+                    </LinearLayout>
+                </LinearLayout>
+
                 <Spinner
                     android:id="@+id/vendor"
                     android:layout_width="match_parent"

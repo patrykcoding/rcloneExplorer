@@ -233,4 +233,9 @@
     <string name="leave_blank_normally">Leave blank normally</string>
     <string name="title_activity_remote_config">Configure</string>
     <string name="provider_onedrive">Microsoft OneDrive</string>
+    <string name="onedrive_client_id_hint">Microsoft Client ID</string>
+    <string name="onedrive_client_secret_hint">Microsoft Client Secret</string>
+    <string name="onedrive_account_type">OneDrive account type</string>
+    <string name="personal_account_type">Personal account</string>
+    <string name="business_account_type">Business account</string>
 </resources>

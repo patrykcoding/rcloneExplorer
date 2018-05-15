@@ -152,6 +152,10 @@ public class RemoteConfig extends AppCompatActivity implements RemotesConfigList
                 fragment = WebdavConfig.newInstance();
                 title = "Webdav";
                 break;
+            case "ONEDRIVE":
+                fragment = OneDriveConfig.newInstance();
+                title = "Microsoft OneDrive";
+                break;
             default:
                 return;
         }
