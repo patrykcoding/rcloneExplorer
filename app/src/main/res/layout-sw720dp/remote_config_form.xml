@@ -346,6 +346,7 @@
                     android:layout_marginBottom="16dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginStart="16dp"
+                    app:passwordToggleEnabled="true"
                     android:visibility="gone"
                     tools:visibility="visible">
                     <EditText
@@ -396,6 +397,32 @@
                 </android.support.design.widget.TextInputLayout>
 
                 <LinearLayout
+                    android:id="@+id/remote_selector"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"
+                    android:background="?selectableItemBackground"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    android:gravity="center_vertical"
+                    tools:visibility="visible">
+                    <TextView
+                        android:id="@+id/remote"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="?attr/textColorPrimary"
+                        tools:text="Remote or path to alias/crypt"
+                        tools:visibility="visible" />
+                    <View
+                        android:id="@+id/remote_selector_line"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="?attr/colorControlNormal"/>
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/onedrive_account_type"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -415,13 +442,13 @@
                     <LinearLayout
                         android:id="@+id/onedrive_personal_account_view"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="48dp"
+                        android:gravity="center_vertical"
                         android:orientation="horizontal"
                         android:background="?selectableItemBackground" >
 
                         <RadioButton
                             android:id="@+id/rb_onedrive_personal_account"
-                            android:paddingBottom="8dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content" />
                         <TextView
@@ -433,7 +460,8 @@
                     <LinearLayout
                         android:id="@+id/onedrive_business_account_view"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="48dp"
+                        android:gravity="center_vertical"
                         android:orientation="horizontal"
                         android:background="?selectableItemBackground" >
                         <RadioButton

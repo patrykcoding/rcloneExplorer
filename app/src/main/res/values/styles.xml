@@ -22,6 +22,13 @@
     <style name="DarkDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:background">#424242</item>
         <item name="android:textColorPrimary">#FFFFFFFF</item>
+        <item name="textColorAlertDialogListItem">#FFFFFFFF</item>
+        <item name="android:colorPrimary">?attr/colorPrimary</item>
+        <item name="android:colorAccent">?attr/colorAccent</item>
+        <item name="colorControlNormal">#B3FFFFFF</item>
+        <item name="colorControlActivated">?attr/colorAccent</item>
+        <item name="colorControlHighlight">#B3FFFFFF</item>
+        <item name="android:textColorHint">#B3FFFFFF</item>
     </style>
 
     <style name="LightTheme">

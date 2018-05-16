@@ -156,6 +156,10 @@ public class RemoteConfig extends AppCompatActivity implements RemotesConfigList
                 fragment = OneDriveConfig.newInstance();
                 title = "Microsoft OneDrive";
                 break;
+            case "ALIAS":
+                fragment = AliasConfig.newInstance();
+                title = "Alias";
+                break;
             default:
                 return;
         }
