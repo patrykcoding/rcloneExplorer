@@ -250,5 +250,14 @@
     <string name="directory_name_encryption_hint">Directory name encryption</string>
     <string name="crypt_pass_hint">Password or pass phrase for encryption</string>
     <string name="crypt_pass2_hint">Password or pass phrase for salt</string>
+    <string name="qingstor_access_key_hint">QingStor Access Key ID</string>
+    <string name="qingstor_secret_access_key_hint">QingStor Secret Access Key (password)</string>
+    <string name="qingstor_endpoint_hint">Enter an enpoint URL to connection QingStor API</string>
+    <string name="qingstor_connection_retries_hint">Number of connection retries</string>
     <string name="provider_crypt">Crypt</string>
+    <string name="provider_qingstor">QingStor</string>
+    <string name="leave_blank_for_anon_access">Leave blank for anonymous access</string>
+    <string name="qingstor_endpoint_helper_text">Leave blank for default value qingstor.com:443</string>
+    <string name="qingstor_zone_spinner_prompt">Choose a zone to connect to</string>
+    <string name="qingstor_connection_retires_helper">Leave blank to use the default value (3)</string>
 </resources>

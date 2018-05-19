@@ -22,7 +22,7 @@ public class RemotesConfigList extends Fragment {
         void onProviderSelected(int provider);
     }
 
-    public static final ArrayList<String> providers = new ArrayList<>(Arrays.asList("ALIAS", "CRYPT", "ONEDRIVE", "AMAZON CLOUD DRIVE", "WEBDAV", "B2", "BOX", "FTP", "HTTP", "HUBIC", "PCLOUD", "SFTP", "YANDEX", "DROPBOX"));
+    public static final ArrayList<String> providers = new ArrayList<>(Arrays.asList("QINGSTOR", "ALIAS", "CRYPT", "ONEDRIVE", "AMAZON CLOUD DRIVE", "WEBDAV", "B2", "BOX", "FTP", "HTTP", "HUBIC", "PCLOUD", "SFTP", "YANDEX", "DROPBOX"));
     private int[] selected = {-1};
     private RadioButton lastSelected;
     private ProviderSelectedListener listener;
@@ -229,6 +229,16 @@ public class RemotesConfigList extends Fragment {
             }
         });
 
+        View providerQingstor = View.inflate(context, R.layout.config_list_item_template, null);
+        ((TextView)providerQingstor.findViewById(R.id.provider_tv)).setText(R.string.provider_qingstor);
+        providerQingstor.findViewById(R.id.provider).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RadioButton rb = v.findViewById(R.id.provider_rb);
+                setSelected(rb, "QINGSTOR");
+            }
+        });
+
         listContent.addView(providerAmazonCloudDrive);
         listContent.addView(providerAlias);
         listContent.addView(providerB2);
@@ -240,6 +250,7 @@ public class RemotesConfigList extends Fragment {
         listContent.addView(providerHTTP);
         listContent.addView(providerOneDrive);
         listContent.addView(providerPcloud);
+        listContent.addView(providerQingstor);
         listContent.addView(providerSFTP);
         listContent.addView(providerWebdav);
         listContent.addView(providerYandex);

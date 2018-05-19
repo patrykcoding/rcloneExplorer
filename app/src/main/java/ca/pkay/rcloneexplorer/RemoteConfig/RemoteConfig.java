@@ -164,6 +164,10 @@ public class RemoteConfig extends AppCompatActivity implements RemotesConfigList
                 fragment = CryptConfig.newInstance();
                 title = "Crypt";
                 break;
+            case "QINGSTOR":
+                fragment = QingstorConfig.newInstance();
+                title = "QingStor";
+                break;
             default:
                 return;
         }
