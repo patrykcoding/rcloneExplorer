@@ -361,6 +361,36 @@
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
+                    android:id="@+id/pass2_input_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"
+                    app:passwordToggleEnabled="true"
+                    app:passwordToggleTint="?attr/iconTint"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+                    <EditText
+                        android:id="@+id/pass2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:textColor="?attr/textColorPrimary"
+                        tools:text="Pass"/>
+                    <TextView
+                        android:id="@+id/pass2_optional"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="0dp"
+                        android:textSize="12sp"
+                        android:textColor="?attr/textColorSecondary"
+                        android:visibility="gone"
+                        android:text="@string/leave_blank_normally"/>
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
                     android:id="@+id/url_input_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -411,6 +441,7 @@
                         android:id="@+id/remote_selector_line"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
+                        android:paddingTop="4dp"
                         android:background="?attr/colorControlNormal"/>
                 </LinearLayout>
 
@@ -468,16 +499,53 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <Spinner
-                    android:id="@+id/vendor"
+                <LinearLayout
+                    android:id="@+id/spinner_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginStart="16dp"
-                    android:popupBackground="?attr/cardColor"
                     android:visibility="gone"
-                    tools:visibility="visible" />
+                    tools:visibility="visible"
+                    android:orientation="vertical"
+                    android:background="?selectableItemBackground" >
+
+                <Spinner
+                        android:id="@+id/spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:popupBackground="?attr/cardColor" />
+                    <View
+                        android:id="@+id/spinner_line"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="?attr/colorControlNormal"/>
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/switch_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    android:background="?selectableItemBackground" >
+                    <TextView
+                        android:id="@+id/switch_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="?attr/textColorPrimary"
+                        tools:text="Directory encryption"
+                        android:layout_alignParentStart="true"/>
+                    <Switch
+                        android:id="@+id/flip_switch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"/>
+                </RelativeLayout>
             </LinearLayout>
         </ScrollView>
 

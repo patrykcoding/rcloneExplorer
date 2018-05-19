@@ -160,6 +160,10 @@ public class RemoteConfig extends AppCompatActivity implements RemotesConfigList
                 fragment = AliasConfig.newInstance();
                 title = "Alias";
                 break;
+            case "CRYPT":
+                fragment = CryptConfig.newInstance();
+                title = "Crypt";
+                break;
             default:
                 return;
         }

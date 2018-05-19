@@ -239,8 +239,16 @@
     <string name="personal_account_type">Personal account</string>
     <string name="business_account_type">Business account</string>
     <string name="alias_remote_hint">Click to select remote or path to alias</string>
+    <string name="encrypt_remote_hint">Click to select remote or path to encrypt</string>
     <string name="remote_cannot_be_empty">Remote can\'t be empty</string>
     <string name="provider_alias">Alias</string>
     <string name="select_remote">Select a remote</string>
     <string name="select_path_to_alias">Select path to Alias</string>
+    <string name="select_path_to_crypt">Select path to Encrypt</string>
+    <string name="webdav_spinner_prompt">Name of the Webdav service</string>
+    <string name="filename_encryption_spinner_prompt">How to encrypt the filenames</string>
+    <string name="directory_name_encryption_hint">Directory name encryption</string>
+    <string name="crypt_pass_hint">Password or pass phrase for encryption</string>
+    <string name="crypt_pass2_hint">Password or pass phrase for salt</string>
+    <string name="provider_crypt">Crypt</string>
 </resources>

@@ -417,6 +417,7 @@
                         tools:visibility="visible" />
                     <View
                         android:id="@+id/remote_selector_line"
+                        android:paddingTop="4dp"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="?attr/colorControlNormal"/>
@@ -476,16 +477,49 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <Spinner
-                    android:id="@+id/vendor"
+                <LinearLayout
+                    android:id="@+id/spinner_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginStart="16dp"
-                    android:popupBackground="?attr/cardColor"
                     android:visibility="gone"
-                    tools:visibility="visible" />
+                    tools:visibility="visible"
+                    android:orientation="vertical" >
+                    <Spinner
+                        android:id="@+id/spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:popupBackground="?attr/cardColor" />
+                    <View
+                        android:id="@+id/spinner_line"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="?attr/colorControlNormal"/>
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/switch_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    android:background="?selectableItemBackground" >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="?attr/textColorPrimary"
+                        tools:text="Directory encryption"
+                        android:layout_alignParentStart="true"/>
+                    <Switch
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"/>
+                </RelativeLayout>
             </LinearLayout>
         </ScrollView>
 
