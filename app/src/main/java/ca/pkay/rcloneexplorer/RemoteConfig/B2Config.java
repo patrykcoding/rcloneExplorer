@@ -53,26 +53,33 @@ public class B2Config extends Fragment {
     }
 
     private void setUpForm(View view) {
+        View formContent = view.findViewById(R.id.form_content);
+        int padding = getResources().getDimensionPixelOffset(R.dimen.config_form_template);
         remoteNameInputLayout = view.findViewById(R.id.remote_name_layout);
         remoteNameInputLayout.setVisibility(View.VISIBLE);
         remoteName = view.findViewById(R.id.remote_name);
 
-        accountInputLayout = view.findViewById(R.id.account_input_layout);
-        accountInputLayout.setVisibility(View.VISIBLE);
+        View accountTemplate = View.inflate(context, R.layout.config_form_template_edit_text, null);
+        accountTemplate.setPadding(0, 0, 0, padding);
+        ((ViewGroup)formContent).addView(accountTemplate);
+        accountInputLayout = accountTemplate.findViewById(R.id.text_input_layout);
         accountInputLayout.setHint(getString(R.string.account_id_hint));
-        account = view.findViewById(R.id.account);
+        account = accountTemplate.findViewById(R.id.edit_text);
 
-        keyInputLayout = view.findViewById(R.id.key_input_layout);
-        keyInputLayout.setVisibility(View.VISIBLE);
+        View keyTemplate = View.inflate(context, R.layout.config_form_template_edit_text, null);
+        keyTemplate.setPadding(0, 0,0 , padding);
+        ((ViewGroup) formContent).addView(keyTemplate);
+        keyInputLayout = keyTemplate.findViewById(R.id.text_input_layout);
         keyInputLayout.setHint(getString(R.string.application_key_hint));
-        key = view.findViewById(R.id.key);
+        key = keyTemplate.findViewById(R.id.edit_text);
 
-        TextInputLayout endpointInputLayout = view.findViewById(R.id.endpoint_input_layout);
-        endpointInputLayout.setVisibility(View.VISIBLE);
+        View endpointTemplate = View.inflate(context, R.layout.config_form_template_edit_text, null);
+        endpointTemplate.setPadding(0, 0, 0, padding);
+        ((ViewGroup) formContent).addView(endpointTemplate);
+        TextInputLayout endpointInputLayout = endpointTemplate.findViewById(R.id.text_input_layout);
         endpointInputLayout.setHint(getString(R.string.endpoint_hint));
-        endpoint = view.findViewById(R.id.endpoint);
-
-        view.findViewById(R.id.endpoint_optional).setVisibility(View.VISIBLE);
+        endpoint = endpointTemplate.findViewById(R.id.edit_text);
+        endpointTemplate.findViewById(R.id.helper_text).setVisibility(View.VISIBLE);
 
         view.findViewById(R.id.next).setOnClickListener(new View.OnClickListener() {
             @Override

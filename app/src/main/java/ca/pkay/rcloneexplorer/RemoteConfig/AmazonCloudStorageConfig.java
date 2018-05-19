@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -78,32 +79,45 @@ public class AmazonCloudStorageConfig extends Fragment {
     }
 
     private void setUpForm(View view) {
+        View formContent = view.findViewById(R.id.form_content);
+        int padding = getResources().getDimensionPixelOffset(R.dimen.config_form_template);
         remoteNameInputLayout = view.findViewById(R.id.remote_name_layout);
         remoteNameInputLayout.setVisibility(View.VISIBLE);
         remoteName = view.findViewById(R.id.remote_name);
 
-        clientIdInputLayout = view.findViewById(R.id.client_id_input_layout);
+        View clientIdTemplate = View.inflate(context, R.layout.config_form_template_edit_text, null);
+        clientIdTemplate.setPadding(0, 0, 0, padding);
+        ((ViewGroup) formContent).addView(clientIdTemplate);
+        clientIdInputLayout = clientIdTemplate.findViewById(R.id.text_input_layout);
         clientIdInputLayout.setVisibility(View.VISIBLE);
         clientIdInputLayout.setHint(getString(R.string.amazon_cloud_storage_client_id_hint));
-        clientId = view.findViewById(R.id.client_id);
+        clientId = clientIdTemplate.findViewById(R.id.edit_text);
 
-        clientSecretInputLayout = view.findViewById(R.id.client_secret_input_layout);
+        View clientSecretTemplate = View.inflate(context, R.layout.config_form_template_edit_text, null);
+        clientSecretTemplate.setPadding(0, 0, 0, padding);
+        ((ViewGroup) formContent).addView(clientSecretTemplate);
+        clientSecretInputLayout = clientSecretTemplate.findViewById(R.id.text_input_layout);
         clientSecretInputLayout.setVisibility(View.VISIBLE);
         clientSecretInputLayout.setHint(getString(R.string.amazon_cloud_storage_client_secret_hint));
-        clientSecret = view.findViewById(R.id.client_secret);
+        clientSecret = clientSecretTemplate.findViewById(R.id.edit_text);
 
-        TextInputLayout authUrlInputLayout = view.findViewById(R.id.auth_url_input_layout);
+        View authUrlTemplate = View.inflate(context, R.layout.config_form_template_edit_text, null);
+        authUrlTemplate.setPadding(0, 0, 0, padding);
+        ((ViewGroup) formContent).addView(authUrlTemplate);
+        TextInputLayout authUrlInputLayout = authUrlTemplate.findViewById(R.id.text_input_layout);
         authUrlInputLayout.setVisibility(View.VISIBLE);
         authUrlInputLayout.setHint(getString(R.string.auth_server_url_hint));
-        authUrl = view.findViewById(R.id.auth_url);
+        authUrl = view.findViewById(R.id.edit_text);
+        authUrlTemplate.findViewById(R.id.helper_text).setVisibility(View.VISIBLE);
 
-        TextInputLayout tokenUrlInputLayout = view.findViewById(R.id.token_url_input_layout);
+        View tokenUrlTemplate = View.inflate(context, R.layout.config_form_template_edit_text, null);
+        tokenUrlTemplate.setPadding(0, 0, 0, padding);
+        ((ViewGroup) formContent).addView(tokenUrlTemplate);
+        TextInputLayout tokenUrlInputLayout = tokenUrlTemplate.findViewById(R.id.text_input_layout);
         tokenUrlInputLayout.setVisibility(View.VISIBLE);
         tokenUrlInputLayout.setHint(getString(R.string.token_server_url_hint));
-        tokenUrl = view.findViewById(R.id.token_url);
-
-        view.findViewById(R.id.auth_url_optional).setVisibility(View.VISIBLE);
-        view.findViewById(R.id.token_url_optional).setVisibility(View.VISIBLE);
+        tokenUrl = tokenUrlInputLayout.findViewById(R.id.edit_text);
+        tokenUrlTemplate.findViewById(R.id.helper_text).setVisibility(View.VISIBLE);
 
         view.findViewById(R.id.next).setOnClickListener(new View.OnClickListener() {
             @Override

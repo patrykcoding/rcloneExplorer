@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,30 +57,41 @@ public class SftpConfig extends Fragment {
     }
 
     private void setUpForm(View view) {
+        ViewGroup formContent = view.findViewById(R.id.form_content);
+        int padding = getResources().getDimensionPixelOffset(R.dimen.config_form_template);
         remoteNameInputLayout = view.findViewById(R.id.remote_name_layout);
         remoteNameInputLayout.setVisibility(View.VISIBLE);
         remoteName = view.findViewById(R.id.remote_name);
 
-        hostInputLayout = view.findViewById(R.id.host_input_layout);
-        hostInputLayout.setVisibility(View.VISIBLE);
+        View hostInputTemplate = View.inflate(context, R.layout.config_form_template_edit_text, null);
+        hostInputTemplate.setPadding(0, 0, 0, padding);
+        formContent.addView(hostInputTemplate);
+        hostInputLayout = hostInputTemplate.findViewById(R.id.text_input_layout);
         hostInputLayout.setHint(getString(R.string.sftp_host_hint));
-        host = view.findViewById(R.id.host);
+        host = hostInputTemplate.findViewById(R.id.edit_text);
 
-        userInputLayout = view.findViewById(R.id.user_input_layout);
-        userInputLayout.setVisibility(View.VISIBLE);
+        View userInputLayoutTemplate = View.inflate(context, R.layout.config_form_template_edit_text, null);
+        userInputLayoutTemplate.setPadding(0, 0, 0, padding);
+        formContent.addView(userInputLayoutTemplate);
+        userInputLayout = userInputLayoutTemplate.findViewById(R.id.text_input_layout);
         userInputLayout.setHint(getString(R.string.ssh_user_hint));
-        user = view.findViewById(R.id.user);
+        user = userInputLayoutTemplate.findViewById(R.id.edit_text);
 
-        portInputLayout = view.findViewById(R.id.port_input_layout);
-        portInputLayout.setVisibility(View.VISIBLE);
-        portInputLayout.setHint(getString(R.string.ssh_port_hint));
-        port = view.findViewById(R.id.port);
-        port.setText(R.string.sftp_default_port);
-
-        passInputLayout = view.findViewById(R.id.pass_input_layout);
-        passInputLayout.setVisibility(View.VISIBLE);
+        View passInputTemplate = View.inflate(context, R.layout.config_form_template_password, null);
+        passInputTemplate.setPadding(0, 0, 0, padding);
+        formContent.addView(passInputTemplate);
+        passInputLayout = passInputTemplate.findViewById(R.id.pass_input_layout);
         passInputLayout.setHint(getString(R.string.ssh_pass_hint));
-        pass = view.findViewById(R.id.pass);
+        pass = passInputTemplate.findViewById(R.id.pass);
+
+        View portInputTemplate = View.inflate(context, R.layout.config_form_template_edit_text, null);
+        portInputTemplate.setPadding(0, 0, 0, padding);
+        formContent.addView(portInputTemplate);
+        portInputLayout = portInputTemplate.findViewById(R.id.text_input_layout);
+        portInputLayout.setHint(getString(R.string.ssh_port_hint));
+        port = portInputTemplate.findViewById(R.id.edit_text);
+        port.setInputType(InputType.TYPE_CLASS_NUMBER);
+        port.setText(R.string.sftp_default_port);
 
         view.findViewById(R.id.next).setOnClickListener(new View.OnClickListener() {
             @Override

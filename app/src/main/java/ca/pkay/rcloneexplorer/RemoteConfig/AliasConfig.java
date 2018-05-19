@@ -11,10 +11,12 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -64,16 +66,22 @@ public class AliasConfig extends Fragment {
     }
 
     private void setUpForm(View view) {
+        View content = view.findViewById(R.id.form_content);
+        int padding = getResources().getDimensionPixelOffset(R.dimen.config_form_template);
         remoteNameInputLayout = view.findViewById(R.id.remote_name_layout);
         remoteNameInputLayout.setVisibility(View.VISIBLE);
         remoteName = view.findViewById(R.id.remote_name);
 
-        View remoteSelector = view.findViewById(R.id.remote_selector);
-        remoteSelector.setVisibility(View.VISIBLE);
-        remoteSelectorLine = view.findViewById(R.id.remote_selector_line);
-        remote = view.findViewById(R.id.remote);
+        View remoteSelectorTemplate = View.inflate(context, R.layout.config_form_template_text_field, null);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.setMargins(0, 0, 0, padding);
+        remoteSelectorTemplate.setLayoutParams(params);
+        ((ViewGroup) content).addView(remoteSelectorTemplate);
+
+        remoteSelectorLine = view.findViewById(R.id.text_view_line);
+        remote = view.findViewById(R.id.text_view);
         remote.setText(R.string.alias_remote_hint);
-        remoteSelector.setOnClickListener(new View.OnClickListener() {
+        remoteSelectorTemplate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setRemote();

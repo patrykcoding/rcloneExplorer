@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -74,26 +75,18 @@ public class CryptConfig extends Fragment {
     }
 
     private void setUpForm(View view) {
+        ViewGroup formContent = view.findViewById(R.id.form_content);
+        int padding = getResources().getDimensionPixelOffset(R.dimen.config_form_template);
         remoteNameInputLayout = view.findViewById(R.id.remote_name_layout);
         remoteNameInputLayout.setVisibility(View.VISIBLE);
         remoteName = view.findViewById(R.id.remote_name);
-        passwordInputLayout = view.findViewById(R.id.pass_input_layout);
-        passwordInputLayout.setVisibility(View.VISIBLE);
-        passwordInputLayout.setHintEnabled(true);
-        passwordInputLayout.setHint(getString(R.string.crypt_pass_hint));
-        password = view.findViewById(R.id.pass);
 
-        password2InputLayout = view.findViewById(R.id.pass2_input_layout);
-        password2InputLayout.setVisibility(View.VISIBLE);
-        password2InputLayout.setHintEnabled(true);
-        password2InputLayout.setHint(getString(R.string.crypt_pass2_hint));
-        view.findViewById(R.id.pass2_optional).setVisibility(View.VISIBLE);
-        password2 = view.findViewById(R.id.pass2);
-
-        View remoteSelector = view.findViewById(R.id.remote_selector);
-        remoteSelector.setVisibility(View.VISIBLE);
-        remoteSelectorLine = view.findViewById(R.id.remote_selector_line);
-        remote = view.findViewById(R.id.remote);
+        View remoteSelectorTemplate = View.inflate(context, R.layout.config_form_template_text_field, null);
+        remoteSelectorTemplate.setPadding(0, 0, 0, padding);
+        formContent.addView(remoteSelectorTemplate);
+        View remoteSelector = remoteSelectorTemplate.findViewById(R.id.remote_selector);
+        remoteSelectorLine = remoteSelectorTemplate.findViewById(R.id.text_view_line);
+        remote = remoteSelectorTemplate.findViewById(R.id.text_view);
         remote.setText(R.string.encrypt_remote_hint);
         remoteSelector.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,21 +94,29 @@ public class CryptConfig extends Fragment {
                 setRemote();
             }
         });
-        view.findViewById(R.id.switch_layout).setVisibility(View.VISIBLE);
-        ((Switch)view.findViewById(R.id.flip_switch)).setChecked(false);
-        view.findViewById(R.id.switch_layout).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Switch s = v.findViewById(R.id.flip_switch);
-                directoryEncryption = (s.isChecked()) ? "false" : "true";
-                s.setChecked(!s.isChecked());
-            }
-        });
-        ((TextView)view.findViewById(R.id.switch_text)).setText(R.string.directory_name_encryption_hint);
 
-        view.findViewById(R.id.spinner_layout).setVisibility(View.VISIBLE);
-        filenameEncryption = view.findViewById(R.id.spinner);
-        spinnerLine = view.findViewById(R.id.spinner_line);
+        View passwordTemplate = View.inflate(context, R.layout.config_form_template_password, null);
+        passwordTemplate.setPadding(0, 0, 0, padding);
+        formContent.addView(passwordTemplate);
+        passwordInputLayout = passwordTemplate.findViewById(R.id.pass_input_layout);
+        passwordInputLayout.setHintEnabled(true);
+        passwordInputLayout.setHint(getString(R.string.crypt_pass_hint));
+        password = passwordTemplate.findViewById(R.id.pass);
+
+        View password2Template = View.inflate(context, R.layout.config_form_template_password, null);
+        password2Template.setPadding(0, 0, 0, padding);
+        formContent.addView(password2Template);
+        password2InputLayout = password2Template.findViewById(R.id.pass_input_layout);
+        password2InputLayout.setHintEnabled(true);
+        password2InputLayout.setHint(getString(R.string.crypt_pass_hint));
+        password2Template.findViewById(R.id.helper_text).setVisibility(View.VISIBLE);
+        password2 = password2Template.findViewById(R.id.pass);
+
+        View spinnerTemplate = View.inflate(context, R.layout.config_form_template_spinner, null);
+        spinnerTemplate.setPadding(0, 0, 0, padding);
+        formContent.addView(spinnerTemplate);
+        filenameEncryption = spinnerTemplate.findViewById(R.id.spinner);
+        spinnerLine = spinnerTemplate.findViewById(R.id.spinner_line);
         String[] options = new String[]{getString(R.string.filename_encryption_spinner_prompt), "Off", "Standard", "Obfuscate"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.spinner_dropdown_item, options) {
             @Override
@@ -135,6 +136,22 @@ public class CryptConfig extends Fragment {
         };
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         filenameEncryption.setAdapter(adapter);
+
+        View switchTemplate = View.inflate(context, R.layout.config_form_template_switch, null);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.setMargins(0, 0, 0, padding);
+        switchTemplate.setLayoutParams(params);
+        formContent.addView(switchTemplate);
+        ((Switch)switchTemplate.findViewById(R.id.flip_switch)).setChecked(false);
+        switchTemplate.findViewById(R.id.switch_layout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Switch s = v.findViewById(R.id.flip_switch);
+                directoryEncryption = (s.isChecked()) ? "false" : "true";
+                s.setChecked(!s.isChecked());
+            }
+        });
+        ((TextView)switchTemplate.findViewById(R.id.switch_text)).setText(R.string.directory_name_encryption_hint);
 
         view.findViewById(R.id.next).setOnClickListener(new View.OnClickListener() {
             @Override

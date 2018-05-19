@@ -80,30 +80,37 @@ public class OneDriveConfig extends Fragment {
     }
 
     private void setUpForm(View view) {
+        ViewGroup formContent = view.findViewById(R.id.form_content);
+        int padding = getResources().getDimensionPixelOffset(R.dimen.config_form_template);
         remoteNameInputLayout = view.findViewById(R.id.remote_name_layout);
         remoteNameInputLayout.setVisibility(View.VISIBLE);
         remoteName = view.findViewById(R.id.remote_name);
 
-        TextInputLayout clientIdInputLayout = view.findViewById(R.id.client_id_input_layout);
-        clientIdInputLayout.setVisibility(View.VISIBLE);
+        View clientIdTemplate = View.inflate(context, R.layout.config_form_template_edit_text, null);
+        clientIdTemplate.setPadding(0, 0, 0, padding);
+        formContent.addView(clientIdTemplate);
+        TextInputLayout clientIdInputLayout = clientIdTemplate.findViewById(R.id.text_input_layout);
         clientIdInputLayout.setHint(getString(R.string.onedrive_client_id_hint));
-        clientId = view.findViewById(R.id.client_id);
+        clientId = clientIdTemplate.findViewById(R.id.edit_text);
+        clientIdTemplate.findViewById(R.id.helper_text).setVisibility(View.VISIBLE);
 
-        TextInputLayout clientSecretInputLayout = view.findViewById(R.id.client_secret_input_layout);
-        clientSecretInputLayout.setVisibility(View.VISIBLE);
+        View clientSecretTemplate = View.inflate(context, R.layout.config_form_template_edit_text, null);
+        clientSecretTemplate.setPadding(0, 0, 0, padding);
+        formContent.addView(clientSecretTemplate);
+        TextInputLayout clientSecretInputLayout = clientSecretTemplate.findViewById(R.id.text_input_layout);
         clientSecretInputLayout.setHint(getString(R.string.onedrive_client_secret_hint));
-        clientSecret = view.findViewById(R.id.client_secret);
+        clientSecret = clientSecretTemplate.findViewById(R.id.edit_text);
+        clientSecretTemplate.findViewById(R.id.helper_text).setVisibility(View.VISIBLE);
 
-        view.findViewById(R.id.client_id_optional).setVisibility(View.VISIBLE);
-        view.findViewById(R.id.client_secret_optional).setVisibility(View.VISIBLE);
-
-        view.findViewById(R.id.onedrive_account_type).setVisibility(View.VISIBLE);
-        personalAccountType = view.findViewById(R.id.rb_onedrive_personal_account);
+        View accountTypeTemplate = View.inflate(context, R.layout.config_form_template_onedrive_type, null);
+        accountTypeTemplate.setPadding(0, 0, 0, padding);
+        formContent.addView(accountTypeTemplate);
+        personalAccountType = accountTypeTemplate.findViewById(R.id.rb_onedrive_personal_account);
         personalAccountType.setChecked(true);
         selectedAccountType = "p";
-        businessAccountType = view.findViewById(R.id.rb_onedrive_business_account);
+        businessAccountType = accountTypeTemplate.findViewById(R.id.rb_onedrive_business_account);
 
-        view.findViewById(R.id.onedrive_personal_account_view).setOnClickListener(new View.OnClickListener() {
+        accountTypeTemplate.findViewById(R.id.onedrive_personal_account_view).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 personalAccountType.setChecked(true);
@@ -111,7 +118,7 @@ public class OneDriveConfig extends Fragment {
                 selectedAccountType = "p";
             }
         });
-        view.findViewById(R.id.onedrive_business_account_view).setOnClickListener(new View.OnClickListener() {
+        accountTypeTemplate.findViewById(R.id.onedrive_business_account_view).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 businessAccountType.setChecked(true);

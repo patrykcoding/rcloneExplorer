@@ -50,14 +50,18 @@ public class HttpConfig extends Fragment {
     }
 
     private void setUpForm(View view) {
+        ViewGroup formContent = view.findViewById(R.id.form_content);
+        int padding = getResources().getDimensionPixelOffset(R.dimen.config_form_template);
         remoteNameInputLayout = view.findViewById(R.id.remote_name_layout);
         remoteNameInputLayout.setVisibility(View.VISIBLE);
         remoteName = view.findViewById(R.id.remote_name);
 
-        urlInputLayout = view.findViewById(R.id.url_input_layout);
-        urlInputLayout.setVisibility(View.VISIBLE);
+        View urlInputTemplate = View.inflate(context, R.layout.config_form_template_edit_text, null);
+        urlInputTemplate.setPadding(0, 0, 0, padding);
+        formContent.addView(urlInputTemplate);
+        urlInputLayout = urlInputTemplate.findViewById(R.id.text_input_layout);
         urlInputLayout.setHint(getString(R.string.url_hint));
-        url = view.findViewById(R.id.url);
+        url = urlInputTemplate.findViewById(R.id.edit_text);
 
         view.findViewById(R.id.next).setOnClickListener(new View.OnClickListener() {
             @Override

@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,10 +26,17 @@ public class RemotesConfigList extends Fragment {
     private int[] selected = {-1};
     private RadioButton lastSelected;
     private ProviderSelectedListener listener;
+    private Context context;
 
     public RemotesConfigList() {}
 
     public static RemotesConfigList newInstance() { return new RemotesConfigList(); }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        context = getContext();
+    }
 
     @Nullable
     @Override
@@ -55,15 +63,17 @@ public class RemotesConfigList extends Fragment {
     }
 
     private void setSelected(RadioButton radioButton, String provider) {
-        radioButton.setChecked(true);
         if (lastSelected != null) {
             lastSelected.setChecked(false);
         }
+        radioButton.setChecked(true);
         lastSelected = radioButton;
         selected[0] = providers.indexOf(provider);
     }
 
     private void setClickListeners(View view) {
+        ViewGroup listContent = view.findViewById(R.id.config_content);
+
         view.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,214 +88,161 @@ public class RemotesConfigList extends Fragment {
                 listener.onProviderSelected(selected[0]);
             }
         });
-        view.findViewById(R.id.provider_box).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                RadioButton rb = v.findViewById(R.id.rb_box);
-                setSelected(rb, "BOX");
-            }
-        });
-        view.findViewById(R.id.rb_box).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                RadioButton rb = v.findViewById(R.id.rb_box);
-                setSelected(rb, "BOX");
-            }
-        });
 
-        view.findViewById(R.id.provider_b2).setOnClickListener(new View.OnClickListener() {
+        View providerAmazonCloudDrive = View.inflate(context, R.layout.config_list_item_template, null);
+        ((TextView)providerAmazonCloudDrive.findViewById(R.id.provider_tv)).setText(R.string.provider_amazon_cloud_drive);
+        providerAmazonCloudDrive.findViewById(R.id.provider).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RadioButton rb = v.findViewById(R.id.rb_b2);
-                setSelected(rb, "B2");
-            }
-        });
-        view.findViewById(R.id.rb_b2).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                RadioButton rb = v.findViewById(R.id.rb_b2);
-                setSelected(rb, "B2");
-            }
-        });
-
-        view.findViewById(R.id.provider_dropbox).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                RadioButton rb = v.findViewById(R.id.rb_dropbox);
-                setSelected(rb, "DROPBOX");
-            }
-        });
-        view.findViewById(R.id.rb_dropbox).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                RadioButton rb = v.findViewById(R.id.rb_dropbox);
-                setSelected(rb, "DROPBOX");
-            }
-        });
-
-        view.findViewById(R.id.provider_amazon_cloud_drive).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                RadioButton rb = v.findViewById(R.id.rb_amazon_cloud_drive);
-                setSelected(rb, "AMAZON CLOUD DRIVE");
-            }
-        });
-        view.findViewById(R.id.rb_amazon_cloud_drive).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                RadioButton rb = v.findViewById(R.id.rb_amazon_cloud_drive);
+                RadioButton rb = v.findViewById(R.id.provider_rb);
                 setSelected(rb, "AMAZON CLOUD DRIVE");
             }
         });
 
-        view.findViewById(R.id.provider_ftp).setOnClickListener(new View.OnClickListener() {
+        View providerBox = View.inflate(context, R.layout.config_list_item_template, null);
+        ((TextView)providerBox.findViewById(R.id.provider_tv)).setText(R.string.provider_box);
+        providerBox.findViewById(R.id.provider).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RadioButton rb = v.findViewById(R.id.rb_ftp);
+                RadioButton rb = v.findViewById(R.id.provider_rb);
+                setSelected(rb, "BOX");
+            }
+        });
+
+        View providerB2 = View.inflate(context, R.layout.config_list_item_template, null);
+        ((TextView)providerB2.findViewById(R.id.provider_tv)).setText(R.string.provider_b2);
+        providerB2.findViewById(R.id.provider).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RadioButton rb = v.findViewById(R.id.provider_rb);
+                setSelected(rb, "B2");
+            }
+        });
+
+        View providerDropbox = View.inflate(context, R.layout.config_list_item_template, null);
+        ((TextView)providerDropbox.findViewById(R.id.provider_tv)).setText(R.string.provider_dropbox);
+        providerDropbox.findViewById(R.id.provider).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RadioButton rb = v.findViewById(R.id.provider_rb);
+                setSelected(rb, "DROPBOX");
+            }
+        });
+
+        View providerFTP = View.inflate(context, R.layout.config_list_item_template, null);
+        ((TextView)providerFTP.findViewById(R.id.provider_tv)).setText(R.string.provider_ftp);
+        providerFTP.findViewById(R.id.provider).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RadioButton rb = v.findViewById(R.id.provider_rb);
                 setSelected(rb, "FTP");
             }
         });
-        view.findViewById(R.id.rb_ftp).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                RadioButton rb = v.findViewById(R.id.rb_ftp);
-                setSelected(rb, "FTP");
-            }
-        });
 
-        view.findViewById(R.id.provider_http).setOnClickListener(new View.OnClickListener() {
+        View providerHTTP = View.inflate(context, R.layout.config_list_item_template, null);
+        ((TextView)providerHTTP.findViewById(R.id.provider_tv)).setText(R.string.provider_http);
+        providerHTTP.findViewById(R.id.provider).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RadioButton rb = v.findViewById(R.id.rb_http);
-                setSelected(rb, "HTTP");
-            }
-        });
-        view.findViewById(R.id.rb_http).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                RadioButton rb = v.findViewById(R.id.rb_http);
+                RadioButton rb = v.findViewById(R.id.provider_rb);
                 setSelected(rb, "HTTP");
             }
         });
 
-        view.findViewById(R.id.provider_hubic).setOnClickListener(new View.OnClickListener() {
+        View providerHubic = View.inflate(context, R.layout.config_list_item_template, null);
+        ((TextView)providerHubic.findViewById(R.id.provider_tv)).setText(R.string.provider_hubic);
+        providerHubic.findViewById(R.id.provider).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RadioButton rb = v.findViewById(R.id.rb_hubic);
-                setSelected(rb, "HUBIC");
-            }
-        });
-        view.findViewById(R.id.rb_hubic).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                RadioButton rb = v.findViewById(R.id.rb_hubic);
+                RadioButton rb = v.findViewById(R.id.provider_rb);
                 setSelected(rb, "HUBIC");
             }
         });
 
-        view.findViewById(R.id.provider_pcloud).setOnClickListener(new View.OnClickListener() {
+        View providerPcloud = View.inflate(context, R.layout.config_list_item_template, null);
+        ((TextView)providerPcloud.findViewById(R.id.provider_tv)).setText(R.string.provider_pcloud);
+        providerPcloud.findViewById(R.id.provider).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RadioButton rb = v.findViewById(R.id.rb_pcloud);
-                setSelected(rb, "PCLOUD");
-            }
-        });
-        view.findViewById(R.id.rb_pcloud).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                RadioButton rb = v.findViewById(R.id.rb_pcloud);
+                RadioButton rb = v.findViewById(R.id.provider_rb);
                 setSelected(rb, "PCLOUD");
             }
         });
 
-        view.findViewById(R.id.provider_sftp).setOnClickListener(new View.OnClickListener() {
+        View providerSFTP = View.inflate(context, R.layout.config_list_item_template, null);
+        ((TextView)providerSFTP.findViewById(R.id.provider_tv)).setText(R.string.provider_sftp);
+        providerSFTP.findViewById(R.id.provider).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RadioButton rb = v.findViewById(R.id.rb_sftp);
-                setSelected(rb, "SFTP");
-            }
-        });
-        view.findViewById(R.id.rb_sftp).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                RadioButton rb = v.findViewById(R.id.rb_sftp);
+                RadioButton rb = v.findViewById(R.id.provider_rb);
                 setSelected(rb, "SFTP");
             }
         });
 
-        view.findViewById(R.id.provider_yandex).setOnClickListener(new View.OnClickListener() {
+        View providerYandex = View.inflate(context, R.layout.config_list_item_template, null);
+        ((TextView)providerYandex.findViewById(R.id.provider_tv)).setText(R.string.provider_yandex);
+        providerYandex.findViewById(R.id.provider).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RadioButton rb = v.findViewById(R.id.rb_yandex);
-                setSelected(rb, "YANDEX");
-            }
-        });
-        view.findViewById(R.id.rb_yandex).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                RadioButton rb = v.findViewById(R.id.rb_yandex);
-                setSelected(rb, "YANDEX");
+                RadioButton rb = v.findViewById(R.id.provider_rb);
+                setSelected(rb, "BOX");
             }
         });
 
-        view.findViewById(R.id.provider_webdav).setOnClickListener(new View.OnClickListener() {
+        View providerWebdav = View.inflate(context, R.layout.config_list_item_template, null);
+        ((TextView)providerWebdav.findViewById(R.id.provider_tv)).setText(R.string.provider_webdav);
+        providerWebdav.findViewById(R.id.provider).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RadioButton rb = v.findViewById(R.id.rb_webdav);
-                setSelected(rb, "WEBDAV");
-            }
-        });
-        view.findViewById(R.id.rb_webdav).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                RadioButton rb = v.findViewById(R.id.rb_webdav);
+                RadioButton rb = v.findViewById(R.id.provider_rb);
                 setSelected(rb, "WEBDAV");
             }
         });
 
-        view.findViewById(R.id.provider_onedrive).setOnClickListener(new View.OnClickListener() {
+        View providerOneDrive = View.inflate(context, R.layout.config_list_item_template, null);
+        ((TextView)providerOneDrive.findViewById(R.id.provider_tv)).setText(R.string.provider_onedrive);
+        providerOneDrive.findViewById(R.id.provider).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RadioButton rb = v.findViewById(R.id.rb_onedrive);
-                setSelected(rb, "ONEDRIVE");
-            }
-        });
-        view.findViewById(R.id.rb_onedrive).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                RadioButton rb = v.findViewById(R.id.rb_onedrive);
+                RadioButton rb = v.findViewById(R.id.provider_rb);
                 setSelected(rb, "ONEDRIVE");
             }
         });
 
-        view.findViewById(R.id.provider_alias).setOnClickListener(new View.OnClickListener() {
+        View providerAlias = View.inflate(context, R.layout.config_list_item_template, null);
+        ((TextView)providerAlias.findViewById(R.id.provider_tv)).setText(R.string.provider_alias);
+        providerAlias.findViewById(R.id.provider).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RadioButton rb = v.findViewById(R.id.rb_alias);
-                setSelected(rb, "ALIAS");
-            }
-        });
-        view.findViewById(R.id.rb_alias).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                RadioButton rb = v.findViewById(R.id.rb_alias);
+                RadioButton rb = v.findViewById(R.id.provider_rb);
                 setSelected(rb, "ALIAS");
             }
         });
 
-        view.findViewById(R.id.provider_crypt).setOnClickListener(new View.OnClickListener() {
+        View providerCrypt = View.inflate(context, R.layout.config_list_item_template, null);
+        ((TextView)providerCrypt.findViewById(R.id.provider_tv)).setText(R.string.provider_crypt);
+        providerCrypt.findViewById(R.id.provider).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RadioButton rb = v.findViewById(R.id.rb_crypt);
+                RadioButton rb = v.findViewById(R.id.provider_rb);
                 setSelected(rb, "CRYPT");
             }
         });
-        view.findViewById(R.id.rb_crypt).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                RadioButton rb = v.findViewById(R.id.rb_crypt);
-                setSelected(rb, "CRYPT");
-            }
-        });
+
+        listContent.addView(providerAmazonCloudDrive);
+        listContent.addView(providerAlias);
+        listContent.addView(providerB2);
+        listContent.addView(providerBox);
+        listContent.addView(providerCrypt);
+        listContent.addView(providerDropbox);
+        listContent.addView(providerFTP);
+        listContent.addView(providerHubic);
+        listContent.addView(providerHTTP);
+        listContent.addView(providerOneDrive);
+        listContent.addView(providerPcloud);
+        listContent.addView(providerSFTP);
+        listContent.addView(providerWebdav);
+        listContent.addView(providerYandex);
+
     }
 }

@@ -61,24 +61,32 @@ public class WebdavConfig extends Fragment {
     }
 
     private void setUpForm(View view) {
+        ViewGroup formContent = view.findViewById(R.id.form_content);
+        int padding = getResources().getDimensionPixelOffset(R.dimen.config_form_template);
         remoteNameInputLayout = view.findViewById(R.id.remote_name_layout);
         remoteNameInputLayout.setVisibility(View.VISIBLE);
         remoteName = view.findViewById(R.id.remote_name);
 
-        urlInputLayout = view.findViewById(R.id.url_input_layout);
-        urlInputLayout.setVisibility(View.VISIBLE);
+        View urlInputTemplate = View.inflate(context, R.layout.config_form_template_edit_text, null);
+        urlInputTemplate.setPadding(0, 0, 0, padding);
+        formContent.addView(urlInputTemplate);
+        urlInputLayout = urlInputTemplate.findViewById(R.id.text_input_layout);
         urlInputLayout.setHint(getString(R.string.url_hint));
-        url = view.findViewById(R.id.url);
+        url = urlInputTemplate.findViewById(R.id.edit_text);
 
-        userInputLayout = view.findViewById(R.id.user_input_layout);
-        userInputLayout.setVisibility(View.VISIBLE);
+        View userInputTemplate = View.inflate(context, R.layout.config_form_template_edit_text, null);
+        userInputTemplate.setPadding(0, 0, 0, padding);
+        formContent.addView(userInputTemplate);
+        userInputLayout = userInputTemplate.findViewById(R.id.text_input_layout);
         userInputLayout.setHint(getString(R.string.webdav_user_hint));
-        user = view.findViewById(R.id.user);
+        user = userInputTemplate.findViewById(R.id.edit_text);
 
-        passInputLayout = view.findViewById(R.id.pass_input_layout);
-        passInputLayout.setVisibility(View.VISIBLE);
+        View passTemplate = View.inflate(context, R.layout.config_form_template_password, null);
+        passTemplate.setPadding(0, 0, 0, padding);
+        formContent.addView(passTemplate);
+        passInputLayout = passTemplate.findViewById(R.id.pass_input_layout);
         passInputLayout.setHint(getString(R.string.webdav_pass_hint));
-        pass = view.findViewById(R.id.pass);
+        pass = passTemplate.findViewById(R.id.pass);
 
         view.findViewById(R.id.next).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,9 +104,10 @@ public class WebdavConfig extends Fragment {
             }
         });
 
-        view.findViewById(R.id.spinner_layout).setVisibility(View.VISIBLE);
-        vendor = view.findViewById(R.id.spinner);
-        vendorLine = view.findViewById(R.id.spinner_line);
+        View vendorTemplate = View.inflate(context, R.layout.config_form_template_spinner, null);
+        formContent.addView(vendorTemplate);
+        vendor = vendorTemplate.findViewById(R.id.spinner);
+        vendorLine = vendorTemplate.findViewById(R.id.spinner_line);
         String[] options = new String[]{getString(R.string.webdav_spinner_prompt), "Nextcloud", "Owncloud", "Sharepoint", "Other"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.spinner_dropdown_item, options) {
             @Override

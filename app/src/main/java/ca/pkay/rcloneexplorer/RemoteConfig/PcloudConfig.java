@@ -74,22 +74,27 @@ public class PcloudConfig extends Fragment {
     }
 
     private void setUpForm(View view) {
+        ViewGroup formContent = view.findViewById(R.id.form_content);
+        int padding = getResources().getDimensionPixelOffset(R.dimen.config_form_template);
         remoteNameInputLayout = view.findViewById(R.id.remote_name_layout);
         remoteNameInputLayout.setVisibility(View.VISIBLE);
         remoteName = view.findViewById(R.id.remote_name);
 
-        TextInputLayout clientIdInputLayout = view.findViewById(R.id.client_id_input_layout);
-        clientIdInputLayout.setVisibility(View.VISIBLE);
+        View clientIdTemplate = View.inflate(context, R.layout.config_form_template_edit_text, null);
+        clientIdTemplate.setPadding(0, 0, 0, padding);
+        formContent.addView(clientIdTemplate);
+        TextInputLayout clientIdInputLayout = clientIdTemplate.findViewById(R.id.text_input_layout);
         clientIdInputLayout.setHint(getString(R.string.pcloud_client_id_hint));
-        clientId = view.findViewById(R.id.client_id);
+        clientId = clientIdInputLayout.findViewById(R.id.edit_text);
+        clientIdTemplate.findViewById(R.id.helper_text).setVisibility(View.VISIBLE);
 
-        TextInputLayout clientSecretInputLayout = view.findViewById(R.id.client_secret_input_layout);
-        clientSecretInputLayout.setVisibility(View.VISIBLE);
+        View clientSecretTemplate = View.inflate(context, R.layout.config_form_template_edit_text, null);
+        clientSecretTemplate.setPadding(0, 0, 0, padding);
+        formContent.addView(clientSecretTemplate);
+        TextInputLayout clientSecretInputLayout = clientSecretTemplate.findViewById(R.id.text_input_layout);
         clientSecretInputLayout.setHint(getString(R.string.pcloud_client_secret_hint));
-        clientSecret = view.findViewById(R.id.client_secret);
-
-        view.findViewById(R.id.client_id_optional).setVisibility(View.VISIBLE);
-        view.findViewById(R.id.client_secret_optional).setVisibility(View.VISIBLE);
+        clientSecret = clientSecretInputLayout.findViewById(R.id.edit_text);
+        clientSecretTemplate.findViewById(R.id.helper_text).setVisibility(View.VISIBLE);
 
         view.findViewById(R.id.next).setOnClickListener(new View.OnClickListener() {
             @Override
