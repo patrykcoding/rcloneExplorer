@@ -38,6 +38,9 @@
         <item name="textColorSecondary">#757575</item>
         <item name="dividerColor">#BDBDBD</item>
         <item name="iconTint">#4A4A4A</item>
+        <item name="colorControlNormal">#757575</item>
+        <item name="colorControlActivated">?attr/colorAccent</item>
+        <item name="colorControlHighlight">#757575</item>
     </style>
 
     <style name="DarkTheme">

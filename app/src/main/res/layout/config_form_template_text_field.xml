@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="8dp"
-            android:textColor="?attr/textColorPrimary"
+            android:textColor="?attr/textColorSecondary"
             tools:text="Remote or path to alias/crypt" />
         <View
             android:id="@+id/text_view_line"

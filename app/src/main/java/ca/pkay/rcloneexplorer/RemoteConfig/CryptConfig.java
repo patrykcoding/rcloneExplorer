@@ -77,12 +77,15 @@ public class CryptConfig extends Fragment {
     private void setUpForm(View view) {
         ViewGroup formContent = view.findViewById(R.id.form_content);
         int padding = getResources().getDimensionPixelOffset(R.dimen.config_form_template);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.setMargins(0, 0, 0, padding);
         remoteNameInputLayout = view.findViewById(R.id.remote_name_layout);
         remoteNameInputLayout.setVisibility(View.VISIBLE);
         remoteName = view.findViewById(R.id.remote_name);
 
         View remoteSelectorTemplate = View.inflate(context, R.layout.config_form_template_text_field, null);
         remoteSelectorTemplate.setPadding(0, 0, 0, padding);
+        remoteSelectorTemplate.setLayoutParams(params);
         formContent.addView(remoteSelectorTemplate);
         View remoteSelector = remoteSelectorTemplate.findViewById(R.id.remote_selector);
         remoteSelectorLine = remoteSelectorTemplate.findViewById(R.id.text_view_line);
@@ -138,8 +141,6 @@ public class CryptConfig extends Fragment {
         filenameEncryption.setAdapter(adapter);
 
         View switchTemplate = View.inflate(context, R.layout.config_form_template_switch, null);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        params.setMargins(0, 0, 0, padding);
         switchTemplate.setLayoutParams(params);
         formContent.addView(switchTemplate);
         ((Switch)switchTemplate.findViewById(R.id.flip_switch)).setChecked(false);
