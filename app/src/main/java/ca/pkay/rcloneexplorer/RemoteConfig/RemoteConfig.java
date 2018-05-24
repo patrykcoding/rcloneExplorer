@@ -168,6 +168,10 @@ public class RemoteConfig extends AppCompatActivity implements RemotesConfigList
                 fragment = QingstorConfig.newInstance();
                 title = "QingStor";
                 break;
+            case "AZUREBLOB":
+                fragment = azureblob.newInstance();
+                title = "Microsoft Azure Blob Storage";
+                break;
             default:
                 return;
         }

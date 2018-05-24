@@ -260,4 +260,7 @@
     <string name="qingstor_endpoint_helper_text">Leave blank for default value qingstor.com:443</string>
     <string name="qingstor_zone_spinner_prompt">Choose a zone to connect to</string>
     <string name="qingstor_connection_retires_helper">Leave blank to use the default value (3)</string>
+    <string name="azureblob_account_hint">Storage Account Name</string>
+    <string name="azureblob_key_hint">Storage Account Key</string>
+    <string name="provider_azureblob">Microsoft Azure Blob Storage</string>
 </resources>
