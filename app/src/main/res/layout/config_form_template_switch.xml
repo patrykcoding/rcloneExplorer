@@ -8,6 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:gravity="center_vertical"
+        android:paddingStart="4dp"
+        android:paddingEnd="4dp"
         android:background="?selectableItemBackground" >
         <TextView
             android:id="@+id/switch_text"

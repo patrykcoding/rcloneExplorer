@@ -84,7 +84,6 @@ public class CryptConfig extends Fragment {
         remoteName = view.findViewById(R.id.remote_name);
 
         View remoteSelectorTemplate = View.inflate(context, R.layout.config_form_template_text_field, null);
-        remoteSelectorTemplate.setPadding(0, 0, 0, padding);
         remoteSelectorTemplate.setLayoutParams(params);
         formContent.addView(remoteSelectorTemplate);
         View remoteSelector = remoteSelectorTemplate.findViewById(R.id.remote_selector);
