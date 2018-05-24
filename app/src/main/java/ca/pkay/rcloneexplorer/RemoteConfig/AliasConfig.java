@@ -31,6 +31,7 @@ import es.dmoral.toasty.Toasty;
 
 public class AliasConfig extends Fragment {
 
+    private final String OUTSTATE_REMOTE_PATH = "ca.pkay.rcexplorer.AliasConfig.REMOTE_PATH";
     private Context context;
     private Rclone rclone;
     private TextInputLayout remoteNameInputLayout;
@@ -63,6 +64,28 @@ public class AliasConfig extends Fragment {
         View view = inflater.inflate(R.layout.remote_config_form, container, false);
         setUpForm(view);
         return view;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (remotePath != null) {
+            outState.putString(OUTSTATE_REMOTE_PATH, remotePath);
+        }
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (savedInstanceState == null) {
+            return;
+        }
+
+        String savedRemotePath = savedInstanceState.getString(OUTSTATE_REMOTE_PATH);
+        if (savedRemotePath != null) {
+            remotePath = savedRemotePath;
+            remote.setText(remotePath);
+        }
     }
 
     private void setUpForm(View view) {

@@ -36,8 +36,17 @@ public class RemoteConfig extends AppCompatActivity implements RemotesConfigList
             actionBar.setDisplayShowHomeEnabled(true);
         }
 
-        fragment = RemotesConfigList.newInstance();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+
+        if (savedInstanceState != null) {
+            fragment = getSupportFragmentManager().findFragmentByTag("new config");
+            if (fragment != null) {
+                fragmentTransaction.replace(R.id.flFragment, fragment, "new config");
+                fragmentTransaction.commit();
+                return;
+            }
+        }
+        fragment = RemotesConfigList.newInstance();
         fragmentTransaction.replace(R.id.flFragment, fragment, "config list");
         fragmentTransaction.commit();
     }

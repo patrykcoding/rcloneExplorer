@@ -33,6 +33,8 @@ import es.dmoral.toasty.Toasty;
 
 public class CryptConfig extends Fragment {
 
+    private final String OUTSTATE_DIR_ENCRYPT = "ca.pkay.rcexplorer.CryptConfig.OUTSTATE_DIR_ENCRYPT";
+    private final String OUTSTATE_REMOTE_PATH = "ca.pkay.rcexplorer.CryptConfig.REMOTE_PATH";
     private Context context;
     private Rclone rclone;
     private TextInputLayout remoteNameInputLayout;
@@ -72,6 +74,35 @@ public class CryptConfig extends Fragment {
         View view = inflater.inflate(R.layout.remote_config_form, container, false);
         setUpForm(view);
         return view;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (directoryEncryption != null) {
+            outState.putString(OUTSTATE_DIR_ENCRYPT, directoryEncryption);
+        }
+        if (remotePath != null) {
+            outState.putString(OUTSTATE_REMOTE_PATH, remotePath);
+        }
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (savedInstanceState == null) {
+            return;
+        }
+
+        String savedDirEncryption = savedInstanceState.getString(OUTSTATE_DIR_ENCRYPT);
+        if (savedDirEncryption != null) {
+            directoryEncryption = savedDirEncryption;
+        }
+        String savedRemotePath = savedInstanceState.getString(OUTSTATE_REMOTE_PATH);
+        if (savedRemotePath != null) {
+            remotePath = savedRemotePath;
+            remote.setText(remotePath);
+        }
     }
 
     private void setUpForm(View view) {
