@@ -4,8 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -118,13 +116,14 @@ public class RemoteDestinationDialog extends DialogFragment implements  SwipeRef
         previousDirLabel = view.findViewById(R.id.previous_dir_label);
         previousDirLabel.setText("");
 
+        ((TextView)view.findViewById(R.id.dialog_title)).setText(title);
+
         AlertDialog.Builder builder;
         if (isDarkTheme) {
-            builder = new AlertDialog.Builder(context, R.style.DarkDialogTheme);
+            builder = new AlertDialog.Builder(context, R.style.DarkDialogThemeFullScreen);
         } else {
-            builder = new AlertDialog.Builder(context);
+            builder = new AlertDialog.Builder(context, R.style.LightDialogThemeFullScreen);
         }
-        builder.setTitle(title);
         builder.setView(view);
         return builder.create();
     }
