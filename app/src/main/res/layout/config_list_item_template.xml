@@ -15,6 +15,7 @@
             android:id="@+id/provider_rb"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
+            android:clickable="false"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 

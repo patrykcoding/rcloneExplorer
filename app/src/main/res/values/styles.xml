@@ -31,7 +31,7 @@
         <item name="android:textColorHint">#B3FFFFFF</item>
     </style>
 
-    <style name="DarkDialogThemeFullScreen">
+    <style name="DialogThemeFullScreen">
         <item name="android:background">#424242</item>
         <item name="android:textColorPrimary">#FFFFFFFF</item>
         <item name="textColorAlertDialogListItem">#FFFFFFFF</item>
@@ -41,11 +41,6 @@
         <item name="colorControlActivated">?attr/colorAccent</item>
         <item name="colorControlHighlight">#B3FFFFFF</item>
         <item name="android:textColorHint">#B3FFFFFF</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowIsFloating">false</item>
-    </style>
-
-    <style name="LightDialogThemeFullScreen" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsFloating">false</item>
     </style>

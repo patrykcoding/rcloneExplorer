@@ -177,7 +177,7 @@ public class AliasConfig extends Fragment {
     private void setPath() {
         RemoteDestinationDialog remoteDestinationDialog = new RemoteDestinationDialog()
                 .withContext(context)
-                .setDarkTheme(true)
+                .setDarkTheme(isDarkTheme)
                 .setRemote(selectedRemote.getName())
                 .setTitle(R.string.select_path_to_alias)
                 .setPositiveButtonListener(new RemoteDestinationDialog.OnDestinationSelectedListener() {

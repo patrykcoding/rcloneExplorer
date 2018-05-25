@@ -130,12 +130,7 @@ public class RemoteDestinationDialog extends DialogFragment implements  SwipeRef
 
         ((TextView)view.findViewById(R.id.dialog_title)).setText(title);
 
-        AlertDialog.Builder builder;
-        if (isDarkTheme) {
-            builder = new AlertDialog.Builder(context, R.style.DarkDialogThemeFullScreen);
-        } else {
-            builder = new AlertDialog.Builder(context, R.style.LightDialogThemeFullScreen);
-        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.DialogThemeFullScreen);
         builder.setView(view);
         builder.setOnKeyListener(new DialogInterface.OnKeyListener() {
             @Override
