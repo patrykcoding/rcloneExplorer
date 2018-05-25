@@ -178,17 +178,17 @@ public class AliasConfig extends Fragment {
                 .setRemote(selectedRemote.getName())
                 .setTitle(R.string.select_path_to_alias)
                 .setPositiveButtonListener(new RemoteDestinationDialog.OnDestinationSelectedListener() {
-            @Override
-            public void onDestinationSelected(String path) {
-                if (path.equals("//" + selectedRemote.getName())) {
-                    remotePath = selectedRemote.getName() + ":";
-                } else {
-                    remotePath = selectedRemote.getName() + ":" + path;
-                }
-                remote.setText(remotePath);
-            }
-        });
-           remoteDestinationDialog.setTargetFragment(this, 0);
+                    @Override
+                    public void onDestinationSelected(String path) {
+                        if (path.equals("//" + selectedRemote.getName())) {
+                            remotePath = selectedRemote.getName() + ":";
+                        } else {
+                            remotePath = selectedRemote.getName() + ":" + path;
+                        }
+                        remote.setText(remotePath);
+                    }
+                });
+        remoteDestinationDialog.setTargetFragment(this, 0);
         if (getFragmentManager() != null) {
             remoteDestinationDialog.show(getFragmentManager(), "remote destination dialog");
         }

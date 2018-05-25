@@ -3,6 +3,7 @@ package ca.pkay.rcloneexplorer.Dialogs;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -51,6 +53,7 @@ public class RemoteDestinationDialog extends DialogFragment implements  SwipeRef
     private Stack<String> pathStack;
     private DirectoryObject directoryObject;
     private AsyncTask fetchDirectoryTask;
+    private AsyncTask newDirTask;
     private int sortOrder;
     private View previousDirView;
     private TextView previousDirLabel;
@@ -107,7 +110,12 @@ public class RemoteDestinationDialog extends DialogFragment implements  SwipeRef
                 dismiss();
             }
         });
-        view.findViewById(R.id.new_folder).setVisibility(View.INVISIBLE);
+        view.findViewById(R.id.new_folder).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onCreateNewDirectory();
+            }
+        });
         view.findViewById(R.id.previous_dir).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,6 +135,16 @@ public class RemoteDestinationDialog extends DialogFragment implements  SwipeRef
             builder = new AlertDialog.Builder(context, R.style.LightDialogThemeFullScreen);
         }
         builder.setView(view);
+        builder.setOnKeyListener(new DialogInterface.OnKeyListener() {
+            @Override
+            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
+                    goUp();
+                    return true;
+                }
+                return false;
+            }
+        });
         return builder.create();
     }
 
@@ -205,6 +223,34 @@ public class RemoteDestinationDialog extends DialogFragment implements  SwipeRef
         // don't do anything
     }
 
+    private void onCreateNewDirectory() {
+        if (getFragmentManager() != null) {
+            new InputDialog()
+                    .setContext(context)
+                    .setTitle(R.string.create_new_folder)
+                    .setMessage(R.string.type_new_folder_name)
+                    .setNegativeButton(R.string.cancel)
+                    .setPositiveButton(R.string.okay_confirmation)
+                    .setDarkTheme(isDarkTheme)
+                    .setOnPositiveListener(new InputDialog.OnPositive() {
+                        @Override
+                        public void onPositive(String input) {
+                            if (input.trim().length() == 0) {
+                                return;
+                            }
+                            String newDir;
+                            if (directoryObject.getCurrentPath().equals("//" + remote)) {
+                                newDir = input;
+                            } else {
+                                newDir = directoryObject.getCurrentPath() + "/" + input;
+                            }
+                            newDirTask = new MakeDirectoryTask().execute(newDir);
+                        }
+                    })
+                    .show(getFragmentManager(), "input dialog");
+        }
+    }
+
     private void goUp() {
         if (pathStack.isEmpty()) {
             dismiss();
@@ -235,6 +281,7 @@ public class RemoteDestinationDialog extends DialogFragment implements  SwipeRef
             sortDirectory();
             recyclerViewAdapter.newData(directoryObject.getDirectoryContent());
         } else {
+            directoryObject.setPath(path);
             fetchDirectoryTask = new FetchDirectoryContent().execute();
         }
     }
@@ -268,6 +315,17 @@ public class RemoteDestinationDialog extends DialogFragment implements  SwipeRef
                 sortOrder = SortDialog.ALPHA_DESCENDING;
         }
         directoryObject.setContent(directoryContent);
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        if (fetchDirectoryTask != null) {
+            fetchDirectoryTask.cancel(true);
+        }
+        if (newDirTask != null) {
+            newDirTask.cancel(true);
+        }
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -307,13 +365,43 @@ public class RemoteDestinationDialog extends DialogFragment implements  SwipeRef
                 swipeRefreshLayout.setRefreshing(false);
             }
         }
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private class MakeDirectoryTask extends AsyncTask<String, Void, Boolean> {
+
+        private String pathWhenTaskStarted;
 
         @Override
-        protected void onCancelled() {
-            super.onCancelled();
-            if (null != swipeRefreshLayout) {
-                swipeRefreshLayout.setRefreshing(false);
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pathWhenTaskStarted = directoryObject.getCurrentPath();
+            swipeRefreshLayout.setRefreshing(true);
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            String newDir = strings[0];
+            return rclone.makeDirectory(remote, newDir);
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            if (result) {
+                Toasty.success(context, getString(R.string.make_directory_success), Toast.LENGTH_SHORT, true).show();
+            } else {
+                Toasty.error(context, getString(R.string.error_mkdir), Toast.LENGTH_SHORT, true).show();
             }
+            if (!pathWhenTaskStarted.equals(directoryObject.getCurrentPath())) {
+                directoryObject.removePathFromCache(pathWhenTaskStarted);
+                return;
+            }
+            swipeRefreshLayout.setRefreshing(false);
+            if (fetchDirectoryTask != null) {
+                fetchDirectoryTask.cancel(true);
+            }
+            fetchDirectoryTask = new FetchDirectoryContent().execute();
         }
     }
 }
