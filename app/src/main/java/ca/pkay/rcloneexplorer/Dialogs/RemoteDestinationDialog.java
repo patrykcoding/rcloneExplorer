@@ -5,6 +5,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -146,6 +148,12 @@ public class RemoteDestinationDialog extends DialogFragment implements  SwipeRef
             }
         });
         return builder.create();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        lockOrientation();
     }
 
     public RemoteDestinationDialog withContext(Context context) {
@@ -311,9 +319,24 @@ public class RemoteDestinationDialog extends DialogFragment implements  SwipeRef
         directoryObject.setContent(directoryContent);
     }
 
+    private void lockOrientation() {
+        int currentOrientation = getResources().getConfiguration().orientation;
+        if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+            ((FragmentActivity)context).setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER_LANDSCAPE);
+        }
+        else {
+            ((FragmentActivity)context).setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT);
+        }
+    }
+
+    private void unlockOrientation() {
+        ((FragmentActivity)context).setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_USER);
+    }
+
     @Override
     public void onDismiss(DialogInterface dialog) {
         super.onDismiss(dialog);
+        unlockOrientation();
         if (fetchDirectoryTask != null) {
             fetchDirectoryTask.cancel(true);
         }
