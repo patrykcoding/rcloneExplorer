@@ -141,8 +141,6 @@ public class B2Config extends Fragment {
             options.add("endpoint");
             options.add(endpointString);
         }
-        options.add("env_auth");
-        options.add("true");
 
         Process process = rclone.configCreate(options);
         try {

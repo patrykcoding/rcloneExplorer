@@ -129,9 +129,12 @@ public class AliasConfig extends Fragment {
     }
 
     private void setRemote() {
-        // TODO handle no remotes
-
         final List<RemoteItem> remotes = rclone.getRemotes();
+        if (remotes.isEmpty()) {
+            Toasty.info(context, getString(R.string.no_remotes), Toast.LENGTH_SHORT, true).show();
+            return;
+        }
+
         String[] options = new String[remotes.size()];
         int i = 0;
         for (RemoteItem remote : remotes) {
@@ -218,8 +221,6 @@ public class AliasConfig extends Fragment {
         options.add("alias");
         options.add("remote");
         options.add(remotePath);
-        options.add("env_auth");
-        options.add("true");
 
         Process process = rclone.configCreate(options);
         try {

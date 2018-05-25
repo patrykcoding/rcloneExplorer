@@ -158,9 +158,6 @@ public class DropboxConfig extends Fragment {
             options.add(clientSecretString);
         }
 
-        options.add("env_auth");
-        options.add("true");
-
         authTask = new ConfigCreate(options).execute();
     }
 

@@ -263,4 +263,5 @@
     <string name="azureblob_account_hint">Storage Account Name</string>
     <string name="azureblob_key_hint">Storage Account Key</string>
     <string name="provider_azureblob">Microsoft Azure Blob Storage</string>
+    <string name="no_remotes">There are no remotes</string>
 </resources>

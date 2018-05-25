@@ -21,6 +21,7 @@ import es.dmoral.toasty.Toasty;
 
 public class RemoteConfig extends AppCompatActivity implements RemotesConfigList.ProviderSelectedListener {
 
+    private final String OUTSTATE_TITLE = "ca.pkay.rcexplorer.remoteConfig.TITLE";
     private Fragment fragment;
 
     @Override
@@ -43,12 +44,28 @@ public class RemoteConfig extends AppCompatActivity implements RemotesConfigList
             if (fragment != null) {
                 fragmentTransaction.replace(R.id.flFragment, fragment, "new config");
                 fragmentTransaction.commit();
+
+                String title = savedInstanceState.getString(OUTSTATE_TITLE);
+                if (title != null) {
+                    getSupportActionBar().setTitle(title);
+                }
                 return;
             }
         }
         fragment = RemotesConfigList.newInstance();
         fragmentTransaction.replace(R.id.flFragment, fragment, "config list");
         fragmentTransaction.commit();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (getSupportActionBar() != null) {
+            CharSequence title = getSupportActionBar().getTitle();
+            if (title != null) {
+                outState.putString(OUTSTATE_TITLE, title.toString());
+            }
+        }
     }
 
     private void applyTheme() {
@@ -117,10 +134,6 @@ public class RemoteConfig extends AppCompatActivity implements RemotesConfigList
         String s = RemotesConfigList.providers.get(provider);
         String title;
         switch (s) {
-            case "AMAZON CLOUD DRIVE":
-                fragment = AmazonCloudStorageConfig.newInstance();
-                title = "Amazon Cloud Drive";
-                break;
             case "B2":
                 fragment = B2Config.newInstance();
                 title = "Backblaze B2";
@@ -178,7 +191,7 @@ public class RemoteConfig extends AppCompatActivity implements RemotesConfigList
                 title = "QingStor";
                 break;
             case "AZUREBLOB":
-                fragment = azureblob.newInstance();
+                fragment = Azureblob.newInstance();
                 title = "Microsoft Azure Blob Storage";
                 break;
             default:

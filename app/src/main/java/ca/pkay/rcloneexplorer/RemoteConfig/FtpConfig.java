@@ -171,9 +171,6 @@ public class FtpConfig extends Fragment {
         options.add("pass");
         options.add(obscuredPass);
 
-        options.add("env_auth");
-        options.add("true");
-
         Process process = rclone.configCreate(options);
         try {
             process.waitFor();

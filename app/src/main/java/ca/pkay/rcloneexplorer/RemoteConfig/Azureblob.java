@@ -18,7 +18,7 @@ import ca.pkay.rcloneexplorer.R;
 import ca.pkay.rcloneexplorer.Rclone;
 import es.dmoral.toasty.Toasty;
 
-public class azureblob extends Fragment {
+public class Azureblob extends Fragment {
 
     private Context context;
     private Rclone rclone;
@@ -30,9 +30,9 @@ public class azureblob extends Fragment {
     private EditText key;
     private EditText endpoint;
 
-    public azureblob() {}
+    public Azureblob() {}
 
-    public static azureblob newInstance() { return new azureblob(); }
+    public static Azureblob newInstance() { return new Azureblob(); }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -132,7 +132,7 @@ public class azureblob extends Fragment {
 
         ArrayList<String> options = new ArrayList<>();
         options.add(name);
-        options.add("azureblob");
+        options.add("Azureblob");
         options.add("account");
         options.add(accountString);
         options.add("key");

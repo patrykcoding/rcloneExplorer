@@ -202,9 +202,12 @@ public class CryptConfig extends Fragment {
     }
 
     private void setRemote() {
-        // TODO handle no remotes
-
         final List<RemoteItem> remotes = rclone.getRemotes();
+        if (remotes.isEmpty()) {
+            Toasty.info(context, "There are no remotes", Toast.LENGTH_SHORT, true).show();
+            return;
+        }
+
         String[] options = new String[remotes.size()];
         int i = 0;
         for (RemoteItem remote : remotes) {

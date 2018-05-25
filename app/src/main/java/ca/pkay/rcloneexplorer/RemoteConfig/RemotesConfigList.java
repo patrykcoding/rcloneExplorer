@@ -22,7 +22,7 @@ public class RemotesConfigList extends Fragment {
         void onProviderSelected(int provider);
     }
 
-    public static final ArrayList<String> providers = new ArrayList<>(Arrays.asList("AZUREBLOB", "QINGSTOR", "ALIAS", "CRYPT", "ONEDRIVE", "AMAZON CLOUD DRIVE", "WEBDAV", "B2", "BOX", "FTP", "HTTP", "HUBIC", "PCLOUD", "SFTP", "YANDEX", "DROPBOX"));
+    public static final ArrayList<String> providers = new ArrayList<>(Arrays.asList("AZUREBLOB", "QINGSTOR", "ALIAS", "CRYPT", "ONEDRIVE", "WEBDAV", "B2", "BOX", "FTP", "HTTP", "HUBIC", "PCLOUD", "SFTP", "YANDEX", "DROPBOX"));
     private int[] selected = {-1};
     private RadioButton lastSelected;
     private ProviderSelectedListener listener;
@@ -86,16 +86,6 @@ public class RemotesConfigList extends Fragment {
             @Override
             public void onClick(View v) {
                 listener.onProviderSelected(selected[0]);
-            }
-        });
-
-        View providerAmazonCloudDrive = View.inflate(context, R.layout.config_list_item_template, null);
-        ((TextView)providerAmazonCloudDrive.findViewById(R.id.provider_tv)).setText(R.string.provider_amazon_cloud_drive);
-        providerAmazonCloudDrive.findViewById(R.id.provider).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                RadioButton rb = v.findViewById(R.id.provider_rb);
-                setSelected(rb, "AMAZON CLOUD DRIVE");
             }
         });
 
@@ -249,7 +239,6 @@ public class RemotesConfigList extends Fragment {
             }
         });
 
-        listContent.addView(providerAmazonCloudDrive);
         listContent.addView(providerAlias);
         listContent.addView(providerB2);
         listContent.addView(providerBox);

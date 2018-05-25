@@ -107,8 +107,6 @@ public class HttpConfig extends Fragment {
         options.add("http");
         options.add("url");
         options.add(urlString);
-        options.add("env_auth");
-        options.add("true");
 
         Process process = rclone.configCreate(options);
         try {
