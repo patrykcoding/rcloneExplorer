@@ -52,6 +52,7 @@ public class RemoteDestinationDialog extends DialogFragment implements  SwipeRef
     private DirectoryObject directoryObject;
     private AsyncTask fetchDirectoryTask;
     private int sortOrder;
+    private View previousDirView;
     private TextView previousDirLabel;
     private int title;
     private OnDestinationSelectedListener listener;
@@ -113,8 +114,9 @@ public class RemoteDestinationDialog extends DialogFragment implements  SwipeRef
                 goUp();
             }
         });
+        previousDirView = view.findViewById(R.id.previous_dir);
+        previousDirView.setVisibility(View.GONE);
         previousDirLabel = view.findViewById(R.id.previous_dir_label);
-        previousDirLabel.setText("");
 
         ((TextView)view.findViewById(R.id.dialog_title)).setText(title);
 
@@ -174,6 +176,7 @@ public class RemoteDestinationDialog extends DialogFragment implements  SwipeRef
         if (prev.startsWith("//")) {
             prev = prev.substring(2);
         }
+        previousDirView.setVisibility(View.VISIBLE);
         previousDirLabel.setText(prev);
 
         if (fetchDirectoryTask != null) {
@@ -217,9 +220,10 @@ public class RemoteDestinationDialog extends DialogFragment implements  SwipeRef
             if (prev.startsWith("//")) {
                 prev = prev.substring(2);
             }
+            previousDirView.setVisibility(View.VISIBLE);
             previousDirLabel.setText(prev);
         } else {
-            previousDirLabel.setText("");
+            previousDirView.setVisibility(View.GONE);
         }
 
         if (fetchDirectoryTask != null) {
