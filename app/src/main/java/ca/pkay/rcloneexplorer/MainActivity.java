@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity
     private static final int READ_REQUEST_CODE = 42; // code when opening rclone config file
     private static final int REQUEST_PERMISSION_CODE = 62; // code when requesting permissions
     private static final int SETTINGS_CODE = 71; // code when coming back from settings
+    private static final int WRITE_REQUEST_CODE = 81; // code when exporting config
     private final String APP_SHORTCUT_REMOTE_NAME = "arg_remote_name";
     private final String APP_SHORTCUT_REMOTE_TYPE = "arg_remote_type";
     private final String FILE_EXPLORER_FRAGMENT_TAG = "ca.pkay.rcexplorer.MAIN_ACTIVITY_FILE_EXPLORER_TAG";
@@ -177,6 +178,17 @@ public class MainActivity extends AppCompatActivity
             if (themeChanged) {
                 recreate();
             }
+        } else if (requestCode == WRITE_REQUEST_CODE && resultCode == RESULT_OK) {
+            Uri uri;
+            if (data != null) {
+                uri = data.getData();
+                try {
+                    rclone.exportConfigFile(uri);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Toasty.error(this, getString(R.string.error_exporting_config_file), Toast.LENGTH_SHORT, true).show();
+                }
+            }
         }
     }
 
@@ -221,6 +233,13 @@ public class MainActivity extends AppCompatActivity
                     importConfigFile();
                 }
                 break;
+            case R.id.nav_export:
+                if (rclone.isConfigFileCreated()) {
+                    exportConfigFile();
+                } else {
+                    Toasty.info(this,  getString(R.string.no_config_file), Toast.LENGTH_SHORT, true).show();
+                }
+                break;
             case R.id.nav_settings:
                 Intent settingsIntent = new Intent(this, SettingsActivity.class);
                 startActivityForResult(settingsIntent, SETTINGS_CODE);
@@ -249,8 +268,6 @@ public class MainActivity extends AppCompatActivity
         }
 
         fragmentManager.beginTransaction().replace(R.id.flFragment, fragment).commit();
-
-        navigationView.getMenu().getItem(0).setChecked(true);
     }
 
     private void warnUserAboutOverwritingConfiguration() {
@@ -302,6 +319,14 @@ public class MainActivity extends AppCompatActivity
         intent.setType("*/*");
 
         startActivityForResult(intent, READ_REQUEST_CODE);
+    }
+
+    public void exportConfigFile() {
+        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("text/*");
+        intent.putExtra(Intent.EXTRA_TITLE, "rclone.conf");
+        startActivityForResult(intent, WRITE_REQUEST_CODE);
     }
 
     public void requestPermissions() {
