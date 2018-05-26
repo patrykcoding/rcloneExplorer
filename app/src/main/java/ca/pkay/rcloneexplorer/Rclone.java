@@ -228,33 +228,7 @@ public class Rclone {
         }
     }
 
-    public List<Process> downloadItems(String remote, List<FileItem> downloadList, String downloadPath) {
-        List<Process> runningProcesses = new ArrayList<>();
-        Process process;
-        String[] command;
-        String remoteFilePath;
-        String localFilePath;
-
-        for (FileItem item : downloadList) {
-            remoteFilePath = remote + ":" + item.getPath();
-            if (item.isDir()) {
-                localFilePath = downloadPath + "/" + item.getName();
-            } else {
-                localFilePath = downloadPath;
-            }
-            command = createCommand("copy", remoteFilePath, localFilePath);
-
-            try {
-                process = Runtime.getRuntime().exec(command);
-                runningProcesses.add(process);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return  runningProcesses;
-    }
-
-    public Process downloadItems(String remote, FileItem downloadItem, String downloadPath) {
+    public Process downloadFile(String remote, FileItem downloadItem, String downloadPath) {
         String[] command;
         String remoteFilePath;
         String localFilePath;

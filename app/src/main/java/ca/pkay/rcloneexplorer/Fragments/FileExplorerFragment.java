@@ -357,11 +357,14 @@ public class FileExplorerFragment extends Fragment implements   FileExplorerRecy
             String selectedPath = data.getStringExtra(FilePicker.FILE_PICKER_RESULT);
             final ArrayList<FileItem> downloadList = new ArrayList<>(recyclerViewAdapter.getSelectedItems());
             recyclerViewAdapter.cancelSelection();
-            Intent intent = new Intent(getContext(), DownloadService.class);
-            intent.putParcelableArrayListExtra(DownloadService.DOWNLOAD_LIST_ARG, downloadList);
-            intent.putExtra(DownloadService.DOWNLOAD_PATH_ARG, selectedPath);
-            intent.putExtra(DownloadService.REMOTE_ARG, remote);
-            context.startService(intent);
+
+            for (FileItem downloadItem : downloadList) {
+                Intent intent = new Intent(getContext(), DownloadService.class);
+                intent.putExtra(DownloadService.DOWNLOAD_ITEM_ARG, downloadItem);
+                intent.putExtra(DownloadService.DOWNLOAD_PATH_ARG, selectedPath);
+                intent.putExtra(DownloadService.REMOTE_ARG, remote);
+                context.startService(intent);
+            }
         } else if (requestCode == STREAMING_INTENT_RESULT) {
             Intent serveIntent = new Intent(getContext(), StreamingService.class);
             context.stopService(serveIntent);
@@ -1339,7 +1342,7 @@ public class FileExplorerFragment extends Fragment implements   FileExplorerRecy
 
             fileLocation = saveLocation + "/" + fileItem.getName();
 
-            process = rclone.downloadItems(remote, fileItem, saveLocation);
+            process = rclone.downloadFile(remote, fileItem, saveLocation);
 
             try {
                 process.waitFor();
