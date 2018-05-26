@@ -21,6 +21,8 @@ import ca.pkay.rcloneexplorer.Dialogs.ColorPickerDialog;
 
 public class SettingsActivity extends AppCompatActivity {
 
+    public final static String THEME_CHANGED = "ca.pkay.rcexplorer.SettingsActivity.THEME_CHANGED";
+    private final String OUTSTATE_THEME_CHANGE = "ca.pkay.rcexplorer.SettingsActivity.OUTSTATE_THEME_CHANGED";
     private View primaryColorElement;
     private ImageView primaryColorPreview;
     private View accentColorElement;
@@ -31,6 +33,7 @@ public class SettingsActivity extends AppCompatActivity {
     private Switch useLogsSwitch;
     private View useLogsElement;
     private boolean isDarkTheme;
+    private boolean themeHasChanged;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,9 +48,20 @@ public class SettingsActivity extends AppCompatActivity {
             actionBar.setDisplayShowHomeEnabled(true);
         }
 
+        themeHasChanged = savedInstanceState != null && savedInstanceState.getBoolean(OUTSTATE_THEME_CHANGE, false);
+        Intent returnData = new Intent();
+        returnData.putExtra(THEME_CHANGED, themeHasChanged);
+        setResult(RESULT_OK, returnData);
+
         getViews();
         setDefaultStates();
         setClickListeners();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(OUTSTATE_THEME_CHANGE, themeHasChanged);
     }
 
     private void applyTheme() {
@@ -196,7 +210,9 @@ public class SettingsActivity extends AppCompatActivity {
         editor.apply();
 
         primaryColorPreview.setColorFilter(color);
-        showSnackBar();
+
+        themeHasChanged = true;
+        recreate();
     }
 
     private void onAccentColorSelected(int color) {
@@ -206,7 +222,9 @@ public class SettingsActivity extends AppCompatActivity {
         editor.apply();
 
         accentColorPreview.setColorFilter(color);
-        showSnackBar();
+
+        themeHasChanged = true;
+        recreate();
     }
 
     private void onDarkThemeClicked(boolean isChecked) {
@@ -215,7 +233,8 @@ public class SettingsActivity extends AppCompatActivity {
         editor.putBoolean(getString(R.string.pref_key_dark_theme), isChecked);
         editor.apply();
 
-        showSnackBar();
+        themeHasChanged = true;
+        recreate();
     }
 
     private void onNotificationsClicked() {
@@ -237,28 +256,5 @@ public class SettingsActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean(getString(R.string.pref_key_logs), isChecked);
         editor.apply();
-    }
-
-    private void showSnackBar() {
-        Snackbar snackbar = Snackbar.make(findViewById(R.id.cl_activity_settings), R.string.restart_required, Snackbar.LENGTH_LONG);
-        if (isDarkTheme) {
-            snackbar.getView().setBackgroundColor(getResources().getColor(R.color.white));
-            TextView tv = snackbar.getView().findViewById(android.support.design.R.id.snackbar_text);
-            tv.setTextColor(getResources().getColor(android.R.color.black));
-        }
-        snackbar.setAction("Restart", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                restartApp();
-            }
-        });
-        snackbar.show();
-    }
-
-    private void restartApp() {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-        finish();
-        Runtime.getRuntime().exit(0);
     }
 }
