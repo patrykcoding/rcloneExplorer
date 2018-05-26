@@ -172,8 +172,11 @@ public class MainActivity extends AppCompatActivity
                 uri = data.getData();
                 new CopyConfigFile().execute(uri);
             }
-        } else if (requestCode == SETTINGS_CODE) {
-            applyTheme();
+        } else if (requestCode == SETTINGS_CODE && resultCode == RESULT_OK) {
+            boolean themeChanged = data.getBooleanExtra(SettingsActivity.THEME_CHANGED, false);
+            if (themeChanged) {
+                recreate();
+            }
         }
     }
 
