@@ -272,4 +272,5 @@
     <string name="app_update_notification_title">New version of Rclone Explorer is available on GitHub</string>
     <string name="app_updates_notifications">Get notified about app updates</string>
     <string name="app_updates_icon_content_description">App updates icon</string>
+    <string name="delete_remote_title">Delete remote?</string>
 </resources>

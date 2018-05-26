@@ -185,6 +185,18 @@ public class Rclone {
         }
     }
 
+    public void deleteRemote(String remoteName) {
+        String[] command = createCommand("config", "delete", remoteName);
+        Process process;
+
+        try {
+            process = Runtime.getRuntime().exec(command);
+            process.waitFor();
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     public String obscure(String pass) {
         String[] command = createCommand("obscure", pass);
 
