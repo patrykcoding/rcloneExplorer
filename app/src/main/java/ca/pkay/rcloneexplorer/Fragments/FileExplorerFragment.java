@@ -60,6 +60,7 @@ import ca.pkay.rcloneexplorer.Dialogs.FilePropertiesDialog;
 import ca.pkay.rcloneexplorer.FilePicker;
 import ca.pkay.rcloneexplorer.Items.DirectoryObject;
 import ca.pkay.rcloneexplorer.Items.FileItem;
+import ca.pkay.rcloneexplorer.Items.RemoteItem;
 import ca.pkay.rcloneexplorer.MainActivity;
 import ca.pkay.rcloneexplorer.Dialogs.OpenAsDialog;
 import ca.pkay.rcloneexplorer.R;
@@ -378,6 +379,10 @@ public class FileExplorerFragment extends Fragment implements   FileExplorerRecy
         menuPropertiesAction = menu.findItem(R.id.action_file_properties);
         menuOpenAsAction = menu.findItem(R.id.action_open_as);
         menuSelectAll = menu.findItem(R.id.action_select_all);
+
+        if (!RemoteItem.hasTrashCan(remoteType)) {
+            menu.findItem(R.id.action_empty_trash).setVisible(false);
+        }
     }
 
     @Override
@@ -406,6 +411,9 @@ public class FileExplorerFragment extends Fragment implements   FileExplorerRecy
                 return true;
             case R.id.action_open_as:
                 showOpenAsDialog();
+                return true;
+            case R.id.action_empty_trash:
+                new EmptyTrashTash().execute();
                 return true;
             default:
                     return super.onOptionsItemSelected(item);
@@ -1487,6 +1495,25 @@ public class FileExplorerFragment extends Fragment implements   FileExplorerRecy
             }
             startActivityForResult(intent, STREAMING_INTENT_RESULT);
             return null;
+        }
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private class EmptyTrashTash extends AsyncTask<Void, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            return rclone.emptyTrashCan(remote);
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            if (result) {
+                Toasty.success(context, getString(R.string.trash_emptied), Toast.LENGTH_SHORT, true).show();
+            } else {
+                Toasty.error(context, getString(R.string.error_emptying_trash), Toast.LENGTH_SHORT, true).show();
+            }
         }
     }
 }
