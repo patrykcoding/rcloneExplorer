@@ -273,29 +273,27 @@ public class Rclone {
 
     }
 
-    public Boolean deleteItems(String remote, List<FileItem> deleteList) {
+    public Boolean deleteItems(String remote, FileItem deleteItem) {
         String[] command;
         String filePath;
         Boolean result = true;
 
-        for (FileItem item : deleteList) {
-            filePath = remote + ":" + item.getPath();
-            if (item.isDir()) {
-                command = createCommand("purge", filePath);
-            } else {
-                command = createCommand("delete", filePath);
-            }
+        filePath = remote + ":" + deleteItem.getPath();
+        if (deleteItem.isDir()) {
+            command = createCommand("purge", filePath);
+        } else {
+            command = createCommand("delete", filePath);
+        }
 
-            try {
-                Process process = Runtime.getRuntime().exec(command);
-                process.waitFor();
-                if (process.exitValue() != 0) {
-                    result = false;
-                }
-            } catch (IOException | InterruptedException e) {
-                e.printStackTrace();
+        try {
+            Process process = Runtime.getRuntime().exec(command);
+            process.waitFor();
+            if (process.exitValue() != 0) {
                 result = false;
             }
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+            result = false;
         }
         return result;
     }
@@ -317,27 +315,25 @@ public class Rclone {
         return true;
     }
 
-    public Boolean moveTo(String remote, List<FileItem> moveList, String newLocation) {
+    public Boolean moveTo(String remote, FileItem moveItem, String newLocation) {
         String[] command;
         String oldFilePath;
         String newFilePath;
         Boolean result = true;
 
-        for (FileItem fileItem : moveList) {
-            oldFilePath = remote + ":" + fileItem.getPath();
-            newFilePath = (newLocation.compareTo("//" + remote) == 0) ? remote + ":" + fileItem.getName() : remote + ":" + newLocation + "/" + fileItem.getName();
-            command = createCommand("moveto", oldFilePath, newFilePath);
-            try {
-                Process process = Runtime.getRuntime().exec(command);
-                process.waitFor();
-                if (process.exitValue() != 0) {
-                    logErrorOutput(process);
-                    result = false;
-                }
-            } catch (IOException | InterruptedException e) {
-                e.printStackTrace();
+        oldFilePath = remote + ":" + moveItem.getPath();
+        newFilePath = (newLocation.compareTo("//" + remote) == 0) ? remote + ":" + moveItem.getName() : remote + ":" + newLocation + "/" + moveItem.getName();
+        command = createCommand("moveto", oldFilePath, newFilePath);
+        try {
+            Process process = Runtime.getRuntime().exec(command);
+            process.waitFor();
+            if (process.exitValue() != 0) {
+                logErrorOutput(process);
                 result = false;
             }
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+            result = false;
         }
         return result;
     }
