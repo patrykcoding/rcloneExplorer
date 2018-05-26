@@ -40,6 +40,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.io.File;
 import java.io.IOException;
@@ -83,6 +84,8 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -107,10 +110,14 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        boolean appUpdates = sharedPreferences.getBoolean(getString(R.string.pref_key_app_updates), true);
+        if (appUpdates) {
+            FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.firebase_msg_app_updates_topic));
+        }
+
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
 
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         int lastVersionCode = sharedPreferences.getInt(getString(R.string.pref_key_version_code), -1);
         int currentVersionCode = BuildConfig.VERSION_CODE;
 
