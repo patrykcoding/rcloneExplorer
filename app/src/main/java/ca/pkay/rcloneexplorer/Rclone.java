@@ -106,7 +106,7 @@ public class Rclone {
     }
 
     public List<FileItem> getDirectoryContent(String remote, String path) {
-        String remoteAndPath = remote + ":";
+        String remoteAndPath = remote + ":/";
         if (path.compareTo("//" + remote) != 0) {
             remoteAndPath += path;
         }
