@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.widget.Toast;
 
@@ -107,6 +108,15 @@ public class Rclone {
 
     public List<FileItem> getDirectoryContent(RemoteItem remote, String path) {
         String remoteAndPath = remote.getName() + ":";
+        switch (remote.getType()) {
+            case "local":
+                remoteAndPath += Environment.getExternalStorageDirectory().getAbsolutePath() + "/";
+                break;
+            case "sftp":
+                remoteAndPath += "/";
+                break;
+        }
+
         if (path.compareTo("//" + remote.getName()) != 0) {
             remoteAndPath += path;
         }
