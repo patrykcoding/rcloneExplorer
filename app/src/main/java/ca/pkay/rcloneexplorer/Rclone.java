@@ -385,9 +385,9 @@ public class Rclone {
         String remotePath = (remote.compareTo("//" + remoteName) == 0) ? remoteName + ":" + localRemotePath : remoteName + ":" + localRemotePath + remote;
 
         if (syncDirection == 1) {
-            command = createCommandWithOptions("sync", localPath, remotePath);
+            command = createCommandWithOptions("sync", localPath, remotePath, "--stats=1s", "--stats-log-level", "NOTICE");
         } else if (syncDirection == 2) {
-            command = createCommandWithOptions("sync", remotePath, localPath);
+            command = createCommandWithOptions("sync", remotePath, localPath, "--stats=1s", "--stats-log-level", "NOTICE");
         } else {
             return null;
         }

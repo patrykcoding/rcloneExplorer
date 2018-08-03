@@ -178,7 +178,7 @@
     <string name="operation_failed">Operation failed</string>
     <string name="moving_service">Moving Service</string>
     <string name="delete_service">Delete Service</string>
-    <string name="syncing_service">Syncing Service</string>
+    <string name="syncing_service">Syncing %1$s</string>
     <string name="and_X_other">and %1$d other</string>
     <string name="search">Search</string>
     <string name="search_clear_button">Search clear button</string>

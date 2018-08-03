@@ -13,6 +13,10 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.LocalBroadcastManager;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 import ca.pkay.rcloneexplorer.BroadcastReceivers.MoveCancelAction;
 import ca.pkay.rcloneexplorer.BroadcastReceivers.SyncCancelAction;
 import ca.pkay.rcloneexplorer.Items.RemoteItem;
@@ -55,12 +59,12 @@ public class SyncService extends IntentService {
         final String localPath = intent.getStringExtra(LOCAL_PATH_ARG);
         final int syncDirection = intent.getIntExtra(SYNC_DIRECTION_ARG, 1);
 
-        String content;
+        String title;
         int slashIndex = remotePath.lastIndexOf("/");
         if (slashIndex >= 0) {
-            content = remotePath.substring(slashIndex + 1);
+            title = remotePath.substring(slashIndex + 1);
         } else {
-            content = remotePath;
+            title = remotePath;
         }
 
         Intent foregroundIntent = new Intent(this, SyncService.class);
@@ -71,8 +75,7 @@ public class SyncService extends IntentService {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_notification)
-                .setContentTitle(getString(R.string.syncing_service))
-                .setContentText(content)
+                .setContentTitle(getString(R.string.syncing_service, title))
                 .setContentIntent(pendingIntent)
                 .addAction(R.drawable.ic_cancel_download, getString(R.string.cancel), cancelPendingIntent)
                 .setPriority(NotificationCompat.PRIORITY_LOW);
@@ -82,21 +85,53 @@ public class SyncService extends IntentService {
         currentProcess = rclone.sync(remoteItem, remotePath, localPath, syncDirection);
         if (currentProcess != null) {
             try {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(currentProcess.getErrorStream()));
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    if (line.startsWith("Transferred:") && !line.matches("Transferred:\\s+\\d+$")) {
+                        updateNotification(title, line);
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            try {
                 currentProcess.waitFor();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
+
         sendUploadFinishedBroadcast(remoteItem.getName(), remotePath);
 
         if (currentProcess == null || currentProcess.exitValue() != 0) {
             rclone.logErrorOutput(currentProcess);
             String errorTitle = "Sync operation failed";
             int notificationId = (int)System.currentTimeMillis();
-            showFailedNotification(errorTitle, content, notificationId);
+            showFailedNotification(errorTitle, title, notificationId);
         }
 
         stopForeground(true);
+    }
+
+    private void updateNotification(String title, String transferred) {
+        Intent foregroundIntent = new Intent(this, SyncService.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, foregroundIntent, 0);
+
+        Intent cancelIntent = new Intent(this, SyncCancelAction.class);
+        PendingIntent cancelPendingIntent = PendingIntent.getBroadcast(this, 0, cancelIntent, 0);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_notification)
+                .setContentTitle(getString(R.string.syncing_service, title))
+                .setContentText(transferred)
+                .setContentIntent(pendingIntent)
+                .addAction(R.drawable.ic_cancel_download, getString(R.string.cancel), cancelPendingIntent)
+                .setPriority(NotificationCompat.PRIORITY_LOW);
+
+        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
+        notificationManagerCompat.notify(PERSISTENT_NOTIFICATION_ID_FOR_SYNC, builder.build());
     }
 
     @Override
