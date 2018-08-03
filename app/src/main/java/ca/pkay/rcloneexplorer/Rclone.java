@@ -101,11 +101,14 @@ public class Rclone {
         try {
             while ((line = reader.readLine()) != null) {
                 stringBuilder.append(line);
+                stringBuilder.append("\n");
             }
         } catch (IOException e) {
             e.printStackTrace();
             return;
         }
+
+        stringBuilder.append("\n----------------\n");
 
         log2File.log(stringBuilder.toString());
     }

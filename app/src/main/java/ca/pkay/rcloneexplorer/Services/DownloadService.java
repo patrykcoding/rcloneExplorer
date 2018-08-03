@@ -80,6 +80,7 @@ public class DownloadService extends IntentService {
         currentProcess = rclone.downloadFile(remote, downloadItem, downloadPath);
 
         if (currentProcess != null) {
+            /*
             try {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(currentProcess.getErrorStream()));
                 String line;
@@ -91,6 +92,7 @@ public class DownloadService extends IntentService {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            */
 
             try {
                 currentProcess.waitFor();
