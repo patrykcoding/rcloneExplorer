@@ -419,7 +419,7 @@ public class Rclone {
         } else {
             localFilePath = downloadPath;
         }
-        command = createCommandWithOptions("copy", remoteFilePath, localFilePath, "--stats=1s", "--stats-log-level", "NOTICE");
+        command = createCommandWithOptions("copy", remoteFilePath, localFilePath, "--stats=1s", "--stats-log-level", "NOTICE", "-vv");
 
         try {
             return Runtime.getRuntime().exec(command);
