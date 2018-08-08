@@ -8,7 +8,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 27
         versionCode 24
-        versionName "1.6.0-DEV"
+        versionName "1.6.0-serve-webdav-bug-alpha2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
