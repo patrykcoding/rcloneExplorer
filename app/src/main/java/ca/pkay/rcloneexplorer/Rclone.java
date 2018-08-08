@@ -64,7 +64,7 @@ public class Rclone {
     }
 
     private String[] createCommandWithOptions(String ...args) {
-        int arraySize = args.length + 7;
+        int arraySize = args.length + 9;
         String[] command = new String[arraySize];
         String cachePath = context.getCacheDir().getAbsolutePath();
 
@@ -73,10 +73,12 @@ public class Rclone {
         command[2] = cachePath;
         command[3] = "--cache-db-path";
         command[4] = cachePath;
-        command[5] = "--config";
-        command[6] = rcloneConf;
+        command[5] = "--cache-tmp-upload-path";
+        command[6] = cachePath;
+        command[7] = "--config";
+        command[8] = rcloneConf;
 
-        int i = 7;
+        int i = 9;
         for (String arg : args) {
             command[i++] = arg;
         }
