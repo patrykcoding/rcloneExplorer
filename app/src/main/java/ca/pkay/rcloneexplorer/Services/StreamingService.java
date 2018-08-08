@@ -6,13 +6,20 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 import ca.pkay.rcloneexplorer.BroadcastReceivers.ServeCancelAction;
 import ca.pkay.rcloneexplorer.Items.RemoteItem;
+import ca.pkay.rcloneexplorer.Log2File;
 import ca.pkay.rcloneexplorer.R;
 import ca.pkay.rcloneexplorer.Rclone;
 
@@ -90,6 +97,28 @@ public class StreamingService extends IntentService {
         }
 
         if (runningProcess != null) {
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+            Boolean isLoggingEnable = sharedPreferences.getBoolean(getString(R.string.pref_key_logs), false);
+
+            if (isLoggingEnable) {
+
+                StringBuilder stringBuilder = new StringBuilder();
+                try {
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(runningProcess.getErrorStream()));
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        stringBuilder.append(line).append("\n");
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                stringBuilder.append("\n-----------------\n");
+
+                Log2File log2File = new Log2File(this);
+                log2File.log(stringBuilder.toString());
+            }
+
             try {
                 runningProcess.waitFor();
             } catch (InterruptedException e) {

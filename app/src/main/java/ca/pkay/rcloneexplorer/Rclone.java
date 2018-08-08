@@ -367,10 +367,18 @@ public class Rclone {
     }
 
     public Process serveWebdav(RemoteItem remote, String servePath, int port) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        Boolean isLoggingEnable = sharedPreferences.getBoolean(context.getString(R.string.pref_key_logs), false);
+
         String remoteName = remote.getName();
         String localRemotePath = (remote.isRemoteType(RemoteItem.LOCAL)) ? Environment.getExternalStorageDirectory().getAbsolutePath() + "/" : "";
         String path = (servePath.compareTo("//" + remoteName) == 0) ? remoteName + ":" + localRemotePath : remoteName + ":" + localRemotePath + servePath;
-        String[] command = createCommandWithOptions("serve", "webdav", "--addr", ":" + String.valueOf(port), path);
+        String[] command;
+        if (isLoggingEnable) {
+            command = createCommandWithOptions("serve", "webdav", "--addr", ":" + String.valueOf(port), path, "-vv");
+        } else {
+            command = createCommandWithOptions("serve", "webdav", "--addr", ":" + String.valueOf(port), path);
+        }
 
         try {
             return Runtime.getRuntime().exec(command);
