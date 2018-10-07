@@ -12,24 +12,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.Switch;
-import android.widget.Toast;
 
 import ca.pkay.rcloneexplorer.R;
-import es.dmoral.toasty.Toasty;
 
-public class LoggingSettingsFragment extends Fragment {
+public abstract class BaseLoggingSettingsFragment extends Fragment {
 
-    private Context context;
+    protected Context context;
     private Switch useLogsSwitch;
     private View useLogsElement;
-    private View crashReportsElement;
-    private Switch crashReportsSwitch;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public LoggingSettingsFragment() {
+    public BaseLoggingSettingsFragment() {
     }
 
     public static LoggingSettingsFragment newInstance() {
@@ -65,17 +61,13 @@ public class LoggingSettingsFragment extends Fragment {
     private void getViews(View view) {
         useLogsSwitch = view.findViewById(R.id.use_logs_switch);
         useLogsElement = view.findViewById(R.id.use_logs);
-        crashReportsElement = view.findViewById(R.id.crash_reporting);
-        crashReportsSwitch = view.findViewById(R.id.crash_reporting_switch);
     }
 
     private void setDefaultStates() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         boolean useLogs = sharedPreferences.getBoolean(getString(R.string.pref_key_logs), false);
-        boolean crashReports = sharedPreferences.getBoolean(getString(R.string.pref_key_crash_reports), false);
 
         useLogsSwitch.setChecked(useLogs);
-        crashReportsSwitch.setChecked(crashReports);
     }
 
     private void setClickListeners() {
@@ -95,22 +87,6 @@ public class LoggingSettingsFragment extends Fragment {
                 onUseLogsClicked(isChecked);
             }
         });
-        crashReportsElement.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (crashReportsSwitch.isChecked()) {
-                    crashReportsSwitch.setChecked(false);
-                } else {
-                    crashReportsSwitch.setChecked(true);
-                }
-            }
-        });
-        crashReportsSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                crashReportsClicked(isChecked);
-            }
-        });
     }
 
     private void onUseLogsClicked(boolean isChecked) {
@@ -118,14 +94,5 @@ public class LoggingSettingsFragment extends Fragment {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean(getString(R.string.pref_key_logs), isChecked);
         editor.apply();
-    }
-
-    private void crashReportsClicked(boolean isChecked) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean(getString(R.string.pref_key_crash_reports), isChecked);
-        editor.apply();
-
-        Toasty.info(context, getString(R.string.restart_required), Toast.LENGTH_SHORT, true).show();
     }
 }

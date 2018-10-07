@@ -16,16 +16,16 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
@@ -35,9 +35,6 @@ import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
 import android.widget.Toast;
-
-import com.crashlytics.android.Crashlytics;
-import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.io.File;
 import java.io.IOException;
@@ -52,9 +49,8 @@ import ca.pkay.rcloneexplorer.Fragments.RemotesFragment;
 import ca.pkay.rcloneexplorer.Items.RemoteItem;
 import ca.pkay.rcloneexplorer.Settings.SettingsActivity;
 import es.dmoral.toasty.Toasty;
-import io.fabric.sdk.android.Fabric;
 
-public class MainActivity   extends AppCompatActivity
+public abstract class BaseMainActivity   extends AppCompatActivity
                             implements  NavigationView.OnNavigationItemSelectedListener,
                                         RemotesFragment.OnRemoteClickListener,
                                         RemotesFragment.AddRemoteToNavDrawer,
@@ -77,27 +73,11 @@ public class MainActivity   extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getIntent() != null) {
-            String s = getIntent().getStringExtra(getString(R.string.firebase_msg_app_updates_topic));
-            if (s != null && s.equals("true")) {
-                openAppUpdate();
-                finish();
-                return;
-            }
-
-            s = getIntent().getStringExtra(getString(R.string.firebase_msg_beta_app_updates_topic));
-            if (s != null) {
-                openBetaUpdate(s);
-                finish();
-                return;
-            }
+        if (updateCheck()) {
+            return;
         }
-        
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean enableCrashReports = sharedPreferences.getBoolean(getString(R.string.pref_key_crash_reports), false);
-        if (enableCrashReports) {
-            Fabric.with(this, new Crashlytics());
-        }
+        checkEnableCrashReports(sharedPreferences);
 
         applyTheme();
         context = this;
@@ -127,10 +107,8 @@ public class MainActivity   extends AppCompatActivity
             }
         });
 
-        boolean appUpdates = sharedPreferences.getBoolean(getString(R.string.pref_key_app_updates), false);
-        if (appUpdates) {
-            FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.firebase_msg_app_updates_topic));
-        }
+
+        checkSubscribeToUpdates(sharedPreferences);
 
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
@@ -181,6 +159,12 @@ public class MainActivity   extends AppCompatActivity
             startRemotesFragment();
         }
     }
+
+    protected abstract boolean updateCheck();
+
+    protected abstract void checkEnableCrashReports(SharedPreferences sharedPreferences);
+
+    protected abstract void checkSubscribeToUpdates(SharedPreferences sharedPreferences);
 
     @Override
     protected void onStart() {

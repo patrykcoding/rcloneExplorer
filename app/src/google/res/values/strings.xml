@@ -1,0 +1,10 @@
+<resources>
+    <string name="pref_key_crash_reports">pref_key_crash_reports</string>
+    <string name="pref_key_app_updates">pref_key_app_updates</string>
+    <string name="pref_key_app_updates_beta">pref_key_app_updates_beta</string>
+    <string name="firebase_msg_beta_app_updates_topic">beta_app_updates</string>
+    <string name="firebase_msg_app_updates_topic">app_updates</string>
+    <string name="app_updates_notifications">Get notified about app updates</string>
+    <string name="beta_app_updates_notifications">Get notified about beta releases</string>
+    <string name="send_anonymous_crash_reports">Send anonymous crash reports</string>
+</resources>
