@@ -1,0 +1,3 @@
+[submodule "rclone/src/github.com/ncw/rclone"]
+	path = rclone/src/github.com/ncw/rclone
+	url = https://github.com/ncw/rclone.git
