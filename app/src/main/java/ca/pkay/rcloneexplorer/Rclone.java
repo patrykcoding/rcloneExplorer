@@ -872,7 +872,7 @@ public class Rclone {
             System.exit(1);
         }
         String exeFilePath = appsFileDir + "/rclone";
-        InputStream inputStream = context.getAssets().open(rcloneArchitecture);
+        InputStream inputStream = context.getAssets().open("rclone/" + rcloneArchitecture);
         File outFile = new File(appsFileDir, "rclone");
         FileOutputStream fileOutputStream = new FileOutputStream(outFile);
 

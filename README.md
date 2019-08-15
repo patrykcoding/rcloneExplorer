@@ -37,6 +37,14 @@ File Editing|Empty Folder|Dark Theme|Encrypted Config
 **File Explorer**|**File Editing**|**Empty Folder**|
 ![screenshot7](https://github.com/kaczmarkiewiczp/rcloneExplorer/blob/master/screenshots/screenshot_7.png?raw=true)|![screenshot8](https://github.com/kaczmarkiewiczp/rcloneExplorer/blob/master/screenshots/screenshot_8.png?raw=true)|![screenshot9](https://github.com/kaczmarkiewiczp/rcloneExplorer/blob/master/screenshots/screenshot_9.png?raw=true)|
 
+Building
+--------
+
+1. Make sure you clone the project with `git clone https://github.com/kaczmarkiewiczp/rcloneExplorer.git --recursive`.
+    - Alternatively, run `git submodule init && git submodule update` in the project folder.
+2. Build rclone using `./gradlew buildNative`.
+3. Use `./gradlew assembleDebug` or Android Studio to build the apk.
+
 Installation
 ------------
 Grab the [latest version](https://github.com/kaczmarkiewiczp/rcloneExplorer/releases/latest) of the signed APK and install it on your phone. Only devices running Android Lollipop 5.0 and up are supported.
