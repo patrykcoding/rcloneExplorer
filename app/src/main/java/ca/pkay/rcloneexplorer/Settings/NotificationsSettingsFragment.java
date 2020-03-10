@@ -16,7 +16,6 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.google.firebase.messaging.FirebaseMessaging;
-
 import ca.pkay.rcloneexplorer.R;
 import es.dmoral.toasty.Toasty;
 
@@ -171,7 +170,6 @@ public class NotificationsSettingsFragment extends Fragment {
         } else {
             FirebaseMessaging.getInstance().unsubscribeFromTopic(getString(R.string.firebase_msg_beta_app_updates_topic));
         }
-
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean(getString(R.string.pref_key_app_updates_beta), isChecked);
